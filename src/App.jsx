@@ -14,19 +14,18 @@ import Navbar from './components/Navbar';
 export default function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-black z-[1] text-white">
+      <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+        <Header />
         <main className="flex-grow pt-20">
-          <Starfield/>
-          <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/expresso" element={<Expresso />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/articles" element={<Articles />} />
-              <Route path="/previous-events" element={<Previous_Events />} />
-            </Routes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/expresso" element={<Expresso />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/articles" element={<Articles />} />
+            <Route path="/previous-events" element={<Previous_Events />} />
+          </Routes>
         </main>
         <Footer />
       </div>
