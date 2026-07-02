@@ -5,7 +5,6 @@ const LINKS = [
   { label: "About", href: "/about" },
   { label: "Previous Events", href: "/previous-events" },
   { label: "eXpresso", href: "/expresso" },
-  { label: "Articles", href: "/articles" },
   { label: "Team", href: "/team" },
   { label: "Certificates", href: "/certificates" },
   { label: "Contact Us", href: "/contact" },
@@ -42,11 +41,11 @@ export default function Navbar() {
             <a
               key={l.label}
               href={l.href}
-              className={`relative text-[0.92rem] font-medium transition-colors duration-[250ms] ease-in-out after:content-[''] after:absolute after:left-0 after:-bottom-1.5 after:h-0.5 after:bg-gradient-to-r after:from-purple after:to-purple-light after:transition-[width] after:duration-[250ms] after:ease-in-out ${
+              className={`relative text-[0.92rem] font-medium transition-colors duration-[250ms] ease-in-out after:content-[''] after:absolute after:left-0 after:-bottom-1.5 after:block after:h-0.5 after:bg-gradient-to-r after:from-[#8b5cf6] after:to-[#c4b5fd] after:transition-[width] after:duration-[250ms] after:ease-in-out ${
                 l.active
-                  ? "text-purple-light after:w-full"
-                  : "text-text-dim after:w-0 hover:text-text hover:after:w-full"
-              }`}
+                  ? "text-[#c4b5fd] after:w-full"
+                  : "text-text-dim after:w-0 hover:text-[#c4b5fd] hover:after:w-full"
+              }`} onclick = {() => l.active = true}
             >
               {l.label}
             </a>
