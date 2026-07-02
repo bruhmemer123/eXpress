@@ -1,138 +1,188 @@
-import MetricSplit from "../components/MetricSplit";
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function About() {
-  const pillars = [
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const containerRef = useRef(null);
+  const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 50 });
+
+  const slides = [
     {
-      title: "Enhancing Public Speaking Skills",
-      desc: "We help students discover and refine their inner speaker."
+      tag: "What Are We?",
+      title: "DJS eXpress",
+      text: "The official public speaking committee of DJ Sanghvi College of Engineering where we organize public speaking and debating events. We have organised many successful events in the past like Illuminare and our flagship event, Aryavarta, which have been received with a lot of support and appreciation."
     },
     {
-      title: "Shaping Responsible Global Citizens",
-      desc: "Our activities prepare students to think critically and act responsibly on global issues."
+      tag: "Our Community & Mission",
+      title: "Unlock Potential",
+      text: "At DJS eXpress, we strive to unlock the potential of every student, ranging from public speaking skills to critical thinking to confident self-expression. We organize debates and discussions related to real-world problems and work on finding solutions collectively."
     },
     {
-      title: "Organizing Meaningful Debates",
-      desc: "We host debates that tackle real-world issues and relevant resolutions."
-    },
-    {
-      title: "Encouraging Innovation & Idea Sharing",
-      desc: "Our community fosters creativity and new perspectives through discussions."
-    },
-    {
-      title: "Preparing for a Fast-Paced World",
-      desc: "We equip students with the confidence and skills to succeed in today's dynamic environment."
-    },
-    {
-      title: "Building a Supportive Community",
-      desc: "We create a strong network of like-minded individuals who support and inspire each other."
+      tag: "Why Choose Us?",
+      title: "Unmatched Reach",
+      text: "With the largest audiences and highest participant registrations in the city, we have built a reputation for exceptional publicity and unique event concepts. Our committee consists of the brightest minds, ensuring a platform where only the most thought-provoking discussions thrive."
     }
   ];
 
-  return (
-    <div className="bg-black text-white selection:bg-express-purple selection:text-white">
-      
-      <section 
-        className="relative h-screen flex flex-col items-center justify-center bg-fixed bg-center bg-cover"
-        style={{ 
-          backgroundImage: 'url(https://images.unsplash.com/photo-1544531585-9847b68c8c86?q=80&w=2070&auto=format&fit=crop)' 
-        }}
-      >
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
-        
-        <div className="relative z-10 text-center px-4 flex flex-col items-center">
-          <p className="text-express-purple tracking-[0.3em] uppercase text-sm mb-4 font-semibold">
-            Official Public Speaking Committee
-          </p>
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-6 tracking-tighter">
-            We Are <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-express-purple to-purple-900 outline-text pr-2">
-              eXpress
-            </span>
-          </h1>
-          <p className="max-w-2xl text-lg md:text-2xl text-gray-300 font-light leading-relaxed">
-            A vibrant community of passionate debaters and public speakers from DJ Sanghvi College of Engineering.
-          </p>
-        </div>
-      </section>
+  const pillars = [
+    { title: "Enhancing Public Speaking Skills", desc: "We help students discover and refine their inner speaker." },
+    { title: "Shaping Responsible Global Citizens", desc: "Our activities prepare students to think critically and act responsibly on global issues." },
+    { title: "Organizing Meaningful Debates", desc: "We host debates that tackle real-world issues and resolutions." },
+    { title: "Encouraging Innovation & Idea Sharing", desc: "Our community fosters creativity and new perspectives through discussions." },
+    { title: "Preparing for a Fast-Paced World", desc: "We equip students with the confidence and skills to succeed in today's dynamic environment." },
+    { title: "Building a Supportive Community", desc: "We create a strong network of like-minded individuals who support and inspire each other." }
+  ];
 
-      <div className="bg-black py-12 px-6">
-        <MetricSplit />
+  // Track scroll position to change slides dynamically
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      const { top, height } = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate progress through the sticky container
+      const totalScrollable = height - windowHeight;
+      const scrolled = -top;
+      const progress = Math.min(Math.max(scrolled / totalScrollable, 0), 1);
+      
+      // Map progress to slide index
+      const index = Math.min(Math.floor(progress * slides.length), slides.length - 1);
+      setCurrentSlide(index);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Mouse move effect for the interactive microphone spotlight
+  // Mouse move effect for the interactive microphone spotlight
+  const handleMouseMove = (e) => {
+    if (!containerRef.current) return;
+    // Calculate percentages based directly on the user's screen size 
+    // instead of the massive 500vh scroll container
+    const x = (e.clientX / window.innerWidth) * 100;
+    const y = (e.clientY / window.innerHeight) * 100;
+    
+    setSpotlightPos({ x, y });
+  };
+
+  return (
+    <div className="bg-black text-white select-none">
+      
+      {/* STICKY CINEMATIC HERO ARENA */}
+      {/* Total height = 300vh to give enough scrolling headroom for 3 distinct slides */}
+      <div 
+        ref={containerRef} 
+        onMouseMove={handleMouseMove}
+        className="relative h-[500vh] w-full"
+      >
+        {/* Sticky viewport content container */}
+        <div className="sticky top-0 left-0 w-full h-screen flex flex-col md:flex-row items-center justify-between overflow-hidden px-6 md:px-20 lg:px-32">
+          
+          {/* BACKGROUND STAGE EFFECT */}
+          {/* Interactive purple radial spotlight that tracks the mouse pointer */}
+          <div 
+            className="absolute inset-0 opacity-40 transition-all duration-300 pointer-events-none"
+            style={{
+              background: `radial-gradient(circle 350px at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(155,135,245,0.15) 0%, transparent 100%)`
+            }}
+          />
+          
+          {/* LEFT: THE FIXED MICROPHONE PODIUM (Anchored to the base of the viewport) */}
+          {/* Mic silhouette - Removed the bounce, added premium mouse parallax */}
+          <div 
+            className="relative bottom-24 flex flex-col items-center transition-transform duration-[50ms] ease-out"
+            style={{
+              // Moves the mic slightly in the opposite direction of your mouse cursor
+              transform: `translate(${(spotlightPos.x - 50) * -0.4}px, ${(spotlightPos.y - 50) * -0.4}px)`
+            }}
+          >
+            {/* Microphone Capsule Mesh Grid Overlay */}
+            <div className="w-16 h-24 rounded-full border-2 border-express-purple bg-black/80 shadow-[0_0_30px_rgba(155,135,245,0.3)] flex flex-col justify-around py-2 overflow-hidden px-1">
+              <div className="w-full h-[1px] bg-express-purple/50" />
+              <div className="w-full h-[1px] bg-express-purple/50" />
+              <div className="w-full h-[1px] bg-express-purple/50" />
+            </div>
+            {/* Mechanical Connector */}
+            <div className="w-4 h-6 bg-zinc-800 border-x border-express-purple/40" />
+            {/* Long Base Shaft Stand */}
+            <div className="w-1.5 h-96 bg-gradient-to-b from-zinc-700 to-zinc-950 shadow-[0_0_10px_rgba(155,135,245,0.1)]" />
+          </div>
+
+          {/* RIGHT: INTERACTIVE SLIDING TEXT ARENA */}
+          <div className="relative w-full md:w-1/2 h-1/2 md:h-full flex items-center z-20">
+            <div className="relative w-full max-w-xl h-96 flex items-center">
+              {slides.map((slide, index) => {
+                const isCurrent = currentSlide === index;
+                return (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-out ${
+                      isCurrent 
+                        ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
+                        : 'opacity-0 translate-y-12 scale-95 pointer-events-none'
+                    }`}
+                  >
+                    <span className="text-express-purple text-xs font-bold uppercase tracking-[0.3em] mb-3 block">
+                      {slide.tag}
+                    </span>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-6">
+                      {slide.title}
+                    </h2>
+                    <p className="text-gray-400 font-light text-base md:text-lg leading-relaxed border-l-2 border-express-purple/30 pl-4">
+                      {slide.text}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* PERSISTENT VISUAL NAVIGATION DOT TIMELINE */}
+          <div className="absolute right-6 md:right-12 top-1/2 transform -translate-y-1/2 flex flex-col gap-4 z-30">
+            {slides.map((_, index) => (
+              <div
+                key={index}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  currentSlide === index 
+                    ? 'bg-express-purple h-8 shadow-[0_0_10px_#9b87f5]' 
+                    : 'bg-zinc-700'
+                }`}
+              />
+            ))}
+          </div>
+
+        </div>
       </div>
 
-      <section className="relative container mx-auto px-6 py-32">
-        <div className="flex flex-col lg:flex-row gap-16">
-          
-          <div className="lg:w-5/12">
-            <div className="sticky top-32">
-              <h2 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
-                Who <span className="text-express-purple">We Are.</span>
-              </h2>
-              <p className="text-xl text-gray-400 font-light border-l-2 border-express-purple pl-6 mb-8">
-                DJS eXpress is the official public speaking committee of DJ Sanghvi College of Engineering. What sets eXpress apart is the consistency and the sheer enthusiasm with which each member works, making us highly coveted.
-              </p>
-            </div>
-          </div>
-
-          <div className="lg:w-7/12 space-y-32 pt-16 lg:pt-0">
-            
-            <div className="group">
-              <h3 className="text-4xl font-bold mb-4 text-white group-hover:text-express-purple transition-colors duration-300">
-                Our Reach
-              </h3>
-              <p className="text-2xl text-gray-300 leading-relaxed font-light">
-                We command the largest audiences and highest participant registrations across college events in the city. We have built a reputation for exceptional publicity and unique event concepts that captivate students across the city.
-              </p>
-            </div>
-
-            <div className="group">
-              <h3 className="text-4xl font-bold mb-4 text-white group-hover:text-express-purple transition-colors duration-300">
-                Flagship Arenas
-              </h3>
-              <p className="text-2xl text-gray-300 leading-relaxed font-light">
-                We have organised many successful events in the past like <span className="text-white font-medium">Illuminare</span> and our flagship event, <span className="text-white font-medium">Aryavarta</span>, which have been received with a lot of support and appreciation from the students and faculty of the college.
-              </p>
-            </div>
-
-            <div className="group">
-              <h3 className="text-4xl font-bold mb-4 text-white group-hover:text-express-purple transition-colors duration-300">
-                Why Choose Us?
-              </h3>
-              <p className="text-2xl text-gray-300 leading-relaxed font-light">
-                Our committee consists of the brightest minds in college, ensuring a platform where only the most thought-provoking discussions and innovative ideas thrive. Our events are designed to challenge, inspire, and refine the skills of participants, ensuring an unparalleled experience.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-gray-900 py-32 border-t border-gray-800">
+      {/* CORE OBJECTIVES VALUE GRID */}
+      <section className="bg-zinc-950 py-32 border-t border-zinc-900 relative z-30">
         <div className="container mx-auto px-6">
-          
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">What Do We Do?</h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
-              We strive to unlock the potential of every student. We organise debates and discussions related to real-world problems and work on finding solutions. We provide an environment for students to grow because the entire process is a learning experience.
-            </p>
+          <div className="text-center mb-24">
+            <span className="text-express-purple font-mono tracking-widest text-sm uppercase">Our Pillars</span>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mt-2 text-white">
+              What Do We Do?
+            </h2>
+            <div className="w-16 h-1 bg-express-purple mx-auto mt-4 rounded-full" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {pillars.map((pillar, index) => (
               <div 
                 key={index}
-                className="p-8 rounded-2xl bg-black border border-gray-800 hover:border-express-purple/50 transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(155,135,245,0.1)] flex flex-col h-full"
+                className="p-8 rounded-2xl bg-black border border-zinc-900 hover:border-express-purple/40 transition-all duration-300 group hover:-translate-y-1 flex flex-col h-full"
               >
-                <div className="w-12 h-12 rounded-full bg-express-purple/10 flex items-center justify-center mb-6 group-hover:bg-express-purple/20 transition-colors">
-                  <span className="text-express-purple font-bold text-xl">{index + 1}</span>
+                <div className="w-10 h-10 rounded-xl bg-express-purple/10 border border-express-purple/20 flex items-center justify-center mb-6 group-hover:bg-express-purple/20 transition-colors">
+                  <span className="text-express-purple font-mono font-bold">{index + 1}</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white">{pillar.title}</h3>
-                <p className="text-gray-400 font-light leading-relaxed flex-grow">
+                <h3 className="text-lg font-bold mb-3 text-white tracking-wide group-hover:text-express-purple transition-colors">
+                  {pillar.title}
+                </h3>
+                <p className="text-gray-500 font-light text-sm leading-relaxed flex-grow">
                   {pillar.desc}
                 </p>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
