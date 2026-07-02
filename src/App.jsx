@@ -14,7 +14,7 @@ import './index.css';
 export default function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-black text-white">
+      <div className="flex flex-col min-h-screen bg-black z-[1] text-white">
         <Header />
         <main className="flex-grow pt-20">
           <Starfield/>

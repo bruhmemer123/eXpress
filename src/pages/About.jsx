@@ -106,7 +106,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-gray-900 py-32 border-t border-gray-800">
+      <section className=" py-32 border-t border-gray-800">
         <div className="container mx-auto px-6">
           
           <div className="text-center mb-20">
