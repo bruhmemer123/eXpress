@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -10,14 +9,15 @@ import Articles from './pages/Articles';
 import Previous_Events from './pages/Previous_Events';
 import Starfield from './components/Starfield';
 import './index.css';
+import Navbar from './components/Navbar';
 
 export default function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-black z-[1] text-white">
-        <Header />
         <main className="flex-grow pt-20">
           <Starfield/>
+          <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
