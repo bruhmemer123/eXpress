@@ -421,7 +421,7 @@ export default function App() {
       </section>
 
       {/* FOOTER */}
-      <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-violet-500/20 px-6 py-8 text-xs text-violet-300/50 md:px-12">
+      {/* <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-violet-500/20 px-6 py-8 text-xs text-violet-300/50 md:px-12">
         <div>© eXpress · DJSCE's official Public Speaking &amp; Debating Committee</div>
         <div className="flex items-center gap-3">
           <a href="https://medium.com/@djsexpresso" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-fuchsia-300">
@@ -432,7 +432,7 @@ export default function App() {
           ·
           <a href="https://www.djsexpress.com/" target="_blank" rel="noopener noreferrer" className="hover:text-fuchsia-300">djsexpress.com</a>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }
