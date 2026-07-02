@@ -9,10 +9,6 @@ import Contact from './pages/Contact';
 import Articles from './pages/Articles';
 import Previous_Events from './pages/Previous_Events';
 import './index.css';
-<<<<<<< HEAD
-import Header from './components/Header';
-=======
->>>>>>> 7fdbb106f1e0136a402a3cf88781dd4e68221969
 
 export default function App() {
   return (
