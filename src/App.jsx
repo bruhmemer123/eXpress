@@ -9,7 +9,7 @@ import Articles from './pages/Articles';
 import Previous_Events from './pages/Previous_Events';
 import Starfield from './components/Starfield';
 import './index.css';
-import Navbar from './components/Navbar';
+import Header from './components/Header';
 
 export default function App() {
   return (
