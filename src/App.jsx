@@ -6,22 +6,24 @@ import About from './pages/About';
 import Expresso from './pages/Expresso';
 import Team from './pages/Team';
 import Contact from './pages/Contact';
-import GlassRipple from './components/Ripple';
+import Articles from './pages/Articles';
+import Previous_Events from './pages/Previous_Events';
 import './index.css';
 
 export default function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-        <GlassRipple />
         <Header />
-        <main className="flex-grow">
+        <main className="flex-grow pt-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/expresso" element={<Expresso />} />
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/articles" element={<Articles />} />
+            <Route path="/previous-events" element={<Previous_Events />} />
           </Routes>
         </main>
         <Footer />
