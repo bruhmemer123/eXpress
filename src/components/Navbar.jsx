@@ -5,6 +5,7 @@ const LINKS = [
   { label: "About", href: "/about" },
   { label: "Previous Events", href: "/previous-events" },
   { label: "eXpresso", href: "/expresso" },
+  { label: "Articles", href: "/articles" },
   { label: "Team", href: "/team" },
   { label: "Certificates", href: "/certificates" },
   { label: "Contact Us", href: "/contact" },
