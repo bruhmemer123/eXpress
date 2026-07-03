@@ -23,13 +23,16 @@ function ScrollToTop() {
   return null;
 }
 
-export default function App() {
+function AppContent() {
+  const { pathname } = useLocation();
+  const isHomePage = pathname === '/';
+
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <div className="flex flex-col min-h-screen bg-gray-900 text-white">
         <div className="flex flex-col min-h-screen text-white">
-          <Starfield />
+          {!isHomePage && <Starfield />}
           <Header />
           <main className="flex-grow pt-0 md:pt-0">
             <Routes>
@@ -46,6 +49,14 @@ export default function App() {
           <Footer />
         </div>
       </div>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
