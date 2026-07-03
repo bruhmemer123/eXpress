@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Rss, Mail } from "lucide-react";
-import { useArticles } from "./hooks/useArticles";
+import { ArrowUpRight, Mail } from "lucide-react";
+import { useArticles } from "../hooks/useArticles";
 
 const MediumIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
