@@ -90,7 +90,7 @@ export default function About() {
           {/* LEFT: THE FIXED MICROPHONE PODIUM (Anchored to the base of the viewport) */}
           {/* Mic silhouette - Removed the bounce, added premium mouse parallax */}
           <div 
-            className="relative bottom-24 flex flex-col items-center transition-transform duration-[50ms] ease-out"
+            className="relative bottom-24 mt-[200px] flex flex-col items-center transition-transform duration-[50ms] ease-out"
             style={{
               // Moves the mic slightly in the opposite direction of your mouse cursor
               transform: `translate(${(spotlightPos.x - 50) * -0.4}px, ${(spotlightPos.y - 50) * -0.4}px)`
@@ -155,7 +155,7 @@ export default function About() {
       </div>
 
       {/* CORE OBJECTIVES VALUE GRID */}
-      <section className="bg-zinc-950 py-32 border-t border-zinc-900 relative z-30">
+      <section className=" py-32 border-t border-zinc-900 relative z-30">
         <div className="container mx-auto px-6">
           <div className="text-center mb-24">
             <span className="text-express-purple font-mono tracking-widest text-sm uppercase">Our Pillars</span>

@@ -207,7 +207,7 @@ export default function Expresso() {
   // --- FULL SCREEN MODAL / READER INTERACTION OVERLAY ---
   if (selectedMag) {
     return (
-      <div className="min-h-screen bg-black text-slate-100 px-4 py-24 flex flex-col items-center justify-start z-40 relative">
+      <div className="min-h-screen text-slate-100 px-4 py-24 flex flex-col items-center justify-start z-40 relative">
         <div className="w-full max-w-6xl flex justify-between items-center mb-8 border-b border-purple-500/10 pb-5">
           <div>
             <span className="text-[rgb(171_101_250)] font-semibold text-xs tracking-[3px] uppercase block mb-1">
@@ -244,7 +244,6 @@ export default function Expresso() {
   return (
     <div
       className="relative min-h-screen overflow-hidden px-4 pb-8 pt-24 text-[rgb(209_213_219)] sm:px-6 lg:px-8"
-      style={{ backgroundColor: 'rgb(20, 8, 22)' }}
     >
       {/* Visual background lights */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">

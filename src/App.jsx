@@ -8,12 +8,14 @@ import Team from './pages/Team';
 import Contact from './pages/Contact';
 import Articles from './pages/Articles';
 import Previous_Events from './pages/Previous_Events';
+import Starfield from './components/Starfield';
 import './index.css';
 
 export default function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+      <div className="flex flex-col min-h-screen text-white">
+        <Starfield/>
         <Header />
         <main className="flex-grow pt-0 md:pt-0">
           <Routes>
