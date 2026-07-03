@@ -4,7 +4,7 @@ const placeholder = "https://placehold.co/400x400?text=Photo";
 
 export const teams = {
   "2025-2026": {
-    groupPhoto:"/public/teams/2025-2026/groupicture.jpeg",
+    groupPhoto:"/teams/2025-2026/groupicture.jpeg",
   
       leadership: {
       principal: {
