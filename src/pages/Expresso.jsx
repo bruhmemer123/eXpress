@@ -3,6 +3,20 @@ import React, { useState, useEffect } from 'react';
 // Full 12-month data mapping matching the public folder layout requirements
 const magazineArchive = [
   {
+    id: 'june-2026',
+    title: 'eXpresso June 2026',
+    month: 'June 2026',
+    folderName: 'june', 
+    volume: 'VOLUME XIII',
+    edition: 'Modern Family',
+    description: 'Whether you\'re Phil chasing fun, or Gloria bringing the drama, there\'s something here for everyone.',
+    tag: 'Latest Edition',
+    embedHtml: `
+      <a href="https://online.flippingbook.com/view/874699440/" class="fbo-embed" data-fbo-id="562abb984b" data-fbo-ratio="3:2" data-fbo-lightbox="no" data-fbo-skin="none" data-fbo-menu="no" data-fbo-width="100%" data-fbo-height="650px" data-fbo-version="1" style="max-width: 100%; display: block; background: transparent;">Copy of eXpressoMay</a>
+    `,
+    scriptUrl: 'https://online.flippingbook.com/EmbedScriptUrl.aspx?m=redir&hid=203496897'
+  },
+  {
     id: 'may-2026',
     title: 'eXpresso May 2026',
     month: 'May 2026',
