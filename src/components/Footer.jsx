@@ -8,7 +8,7 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer className="relative z-[1] border-t border-border-soft mt-[60px]">
+    <footer className="relative z-[1] border-t border-border-soft ">
       <div className="max-w-[1280px] mx-auto py-[26px] px-8 flex items-center justify-between flex-wrap gap-4 text-[0.85rem] text-text-dim max-[640px]:justify-center max-[640px]:text-center">
         <span>© {new Date().getFullYear()} DJS eXpress. All rights reserved.</span>
 
