@@ -243,7 +243,7 @@ export default function Expresso() {
   // --- MAIN ARCHIVE VIEW LAYOUT ---
   return (
     <div
-      className="relative min-h-screen overflow-hidden px-4 pb-8 pt-24 text-[rgb(209_213_219)] sm:px-6 lg:px-8"
+      className="relative min-h-screen overflow-hidden px-4 pb-8 pt-8 text-[rgb(209_213_219)] sm:px-6 lg:px-8"
     >
       {/* Visual background lights */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -326,7 +326,7 @@ export default function Expresso() {
                   ? 'border-white/15 bg-slate-950/70 hover:-translate-y-1 hover:border-violet-400/40' 
                   : 'border-white/5 bg-slate-950/30 opacity-40 hover:border-white/10'
               }`}
-              style={{ transitionDelay: `${index * 80}ms` }}
+              style={{ transitionDelay: `${index * 40}ms` }}
             >
               {/* Image Pipeline Setup: Maps directly to /public/{folderName}/1.png */}
               <div className="mb-4 h-40 rounded-[1rem] border border-white/15 bg-[rgb(20_8_22)] overflow-hidden relative group">

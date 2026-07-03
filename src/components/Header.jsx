@@ -18,8 +18,13 @@ const Header = () => {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
         <Link
           to="/"
-          className="text-lg font-semibold tracking-[0.1em] text-white transition hover:text-purple-200"
+          className="flex items-center gap-2 text-lg font-semibold tracking-[0.1em] text-white transition hover:text-purple-200"
         >
+          <img
+            src="/djexpress_logo.jpeg"
+            alt="DJS eXpress Logo"
+            className="h-10 w-10 rounded-2xl object-cover"
+          />
           DJS eXpress
         </Link>
 
