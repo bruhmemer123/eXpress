@@ -22,6 +22,8 @@ export default function Footer() {
             <a
               key={s.label}
               href={s.site}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={s.label}
               className="w-[34px] h-[34px] rounded-[10px] border border-border-soft flex items-center justify-center text-[1.08rem] font-bold text-purple-light transition-[background-color,transform] duration-[250ms] ease-in-out hover:bg-purple/15 hover:-translate-y-0.5"
             >
