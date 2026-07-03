@@ -22,7 +22,7 @@ const Header = () => {
       className={`z-50 transition-all duration-300 ${
         isHomePage
           ? 'fixed top-0 inset-x-0 border-none bg-transparent shadow-none backdrop-blur-none outline-none'
-          : 'sticky top-0 border-b border-white/10 bg-slate-950/60 shadow-[0_8px_30px_rgba(0,0,0,0.18)] backdrop-blur-xl'
+          : 'sticky top-0 border-b border-white/10 bg-black shadow-[0_8px_30px_rgba(0,0,0,0.18)] backdrop-blur-xl'
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
@@ -35,7 +35,7 @@ const Header = () => {
             alt="DJS eXpress Logo"
             className="h-10 w-10 rounded-2xl object-cover"
           />
-          DJS eXpress
+          <span>DJS e<span className=" p-0 text-purple-400">X</span>press</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -30,7 +30,7 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+      <div className="flex flex-col min-h-screen text-white">
         <div className="flex flex-col min-h-screen text-white">
           {!isHomePage && <Starfield />}
           <Header />
