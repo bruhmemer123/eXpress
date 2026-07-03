@@ -1,72 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Rss, Mail } from "lucide-react";
-
-const ARTICLES = [
-  {
-    n: "002",
-    title: "The lives almost lived",
-    author: "Shruti Gadgil",
-    date: "Jun 22",
-    img: "https://miro.medium.com/v2/resize:fit:800/0*RkblLHrAHgHcm3pF.jpeg",
-    url: "https://medium.com/@djsexpresso/the-lives-almost-lived-57582c1c24ac",
-  },
-  {
-    n: "003",
-    title: "The Curious Comfort of Nostalgia",
-    author: "Swara Desai",
-    date: "Jun 14",
-    img: "https://miro.medium.com/v2/resize:fit:800/g:fp:0.5:0.12/0*vFwkcFRNWMpus69x.jpeg",
-    url: "https://medium.com/@djsexpresso/the-curious-comfort-of-nostalgia-2f643ae68cd5",
-  },
-  {
-    n: "004",
-    title: "the grey ghost in the elephant room",
-    author: "eXpress writers",
-    date: "Jun 7",
-    img: "https://miro.medium.com/v2/resize:fit:800/1*Ysyg8aftwG142G-2jopb2g.jpeg",
-    url: "https://medium.com/@djsexpresso/the-grey-ghost-in-the-elephant-room-92d7fc8b2b29",
-  },
-  {
-    n: "005",
-    title: "Our minds must have soulmates too",
-    author: "Trisha Nair",
-    date: "May 31",
-    img: "https://miro.medium.com/v2/resize:fit:800/1*YTk_rVw7W_Rg4H6BSywQSA.png",
-    url: "https://medium.com/@djsexpresso/our-minds-must-have-soulmates-too-4e90f3b0f715",
-  },
-  {
-    n: "006",
-    title: "Humanity's Endless Search For Itself",
-    author: "Aiden Fernandes",
-    date: "May 24",
-    img: "https://miro.medium.com/v2/resize:fit:800/0*icwT-52xVu5UJ55g.png",
-    url: "https://medium.com/@djsexpresso/humanitys-endless-search-for-itself-c1577b277747",
-  },
-  {
-    n: "007",
-    title: "You won't be able to achieve success if you don't do this…",
-    author: "Aaditya Jadhav",
-    date: "May 17",
-    img: "https://miro.medium.com/v2/resize:fit:800/1*C0rOrVQJAU5U21l5n1Jz3A.jpeg",
-    url: "https://medium.com/@djsexpresso/you-wont-be-able-to-achieve-success-if-you-don-t-do-this-98bf276d5a8a",
-  },
-  {
-    n: "008",
-    title: "why do people keep on living",
-    author: "Pranay Purohit",
-    date: "May 10",
-    img: "https://miro.medium.com/v2/resize:fit:800/1*x1-08aJCctFk-YtZjuY6Pg.jpeg",
-    url: "https://medium.com/@djsexpresso/why-do-people-keep-on-living-2361d5920e6b",
-  },
-  {
-    n: "009",
-    title: 'A "Perfectly" Algorithmic World',
-    author: "Avrojit Dutta",
-    date: "May 3",
-    img: "https://miro.medium.com/v2/resize:fit:800/1*tisyE4OmGOb4_e-VlE1_1Q.jpeg",
-    url: "https://medium.com/@djsexpresso/a-perfectly-algorithmic-world-a355157994b2",
-  },
-];
+import { useArticles } from "./hooks/useArticles";
 
 const MediumIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -156,7 +90,11 @@ function TicketCard({ a }) {
   );
 }
 
-export default function App() {
+export default function Articles() {
+  const { articles, loading, error } = useArticles();
+  const featured = articles[0];
+  const rest = articles.slice(1);
+
   return (
     <div className="min-h-screen bg-black font-sans text-violet-50">
       <style>{`
@@ -176,42 +114,6 @@ export default function App() {
         .marquee-track { animation: marquee 26s linear infinite; }
       `}</style>
 
-      {/* NAV */} 
-      {/* <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-violet-500/20 bg-black/70 px-6 py-4 backdrop-blur-md md:px-12">
-        <div className="flex items-center gap-2.5 font-serif-brew text-xl font-bold">
-          <span className="h-2 w-2 rounded-full bg-violet-500 shadow-[0_0_10px_2px_rgba(139,92,246,0.6)]" />
-          DJS eXpress
-        </div> 
-        <div className="hidden items-center gap-9 text-sm text-violet-300/80 md:flex">
-          <a href="#" className="hover:text-violet-50">Home</a>
-          <a href="#" className="hover:text-violet-50">Events</a>
-          <a href="#" className="hover:text-violet-50">Team</a>
-          <a href="#" className="relative text-fuchsia-300">
-            The Brew
-            <span className="absolute -bottom-1.5 left-0 right-0 h-px bg-fuchsia-300" />
-          </a>
-          <a href="#" className="hover:text-violet-50">Contact</a>
-        </div>
-        <div className="flex gap-2.5">
-          <a
-            href="https://medium.com/@djsexpresso"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-full border border-violet-500/25 px-3.5 py-2 text-xs transition-all hover:-translate-y-0.5 hover:border-violet-400 hover:bg-violet-500/10 hover:shadow-lg hover:shadow-violet-500/20"
-          >
-            <MediumIcon className="h-3.5 w-3.5" /> Medium
-          </a>
-          <a
-            href="https://substack.com/@djsexpresso"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-full border border-violet-500/25 px-3.5 py-2 text-xs transition-all hover:-translate-y-0.5 hover:border-violet-400 hover:bg-violet-500/10 hover:shadow-lg hover:shadow-violet-500/20"
-          >
-            <SubstackIcon className="h-3.5 w-3.5" /> Substack
-          </a>
-        </div>
-      </nav> */}
-
       {/* HERO */}
       <section className="relative grid grid-cols-1 items-center gap-10 border-b border-violet-500/20 px-6 py-20 md:grid-cols-2 md:px-12 md:py-28">
         <div>
@@ -225,10 +127,9 @@ export default function App() {
             <span className="italic font-medium text-fuchsia-300">brewed</span> in-house.
           </h1>
           <p className="mt-6 max-w-md text-base leading-relaxed text-violet-200/80">
-            Every week, eXpress' journalism deaprtment pours their unfiltered thoughts into
+            Every week, eXpress' journalism department pours their unfiltered thoughts into
             essays and publishes them across Medium and Substack. We are just a committee that thinks out loud.
-            This is proof of what we've
-            made, not what we've won.
+            This is proof of what we've made, not what we've won.
           </p>
           <div className="mt-9 flex flex-wrap gap-3.5">
             <a
@@ -280,8 +181,11 @@ export default function App() {
             .map((_, i) => (
               <span key={i} className="font-mono text-xs tracking-wide text-violet-300/50">
                 <span className="px-7"><b className="font-semibold text-fuchsia-300">101</b> followers on Medium</span>
-                <span className="px-7">9 essays brewed and counting</span>
-                <span className="px-7">latest drop — <b className="font-semibold text-fuchsia-300">"end of time"</b> by Pranay Purohit</span>
+                <span className="px-7">{articles.length || "..."} essays brewed and counting</span>
+                <span className="px-7">
+                  latest drop — <b className="font-semibold text-fuchsia-300">{featured ? `"${featured.title}"` : "loading..."}</b>
+                  {featured ? ` by ${featured.author}` : ""}
+                </span>
                 <span className="px-7">new blend every sunday</span>
               </span>
             ))}
@@ -295,33 +199,44 @@ export default function App() {
             <h2 className="font-serif-brew text-3xl font-semibold">Fresh off the press</h2>
             <span className="font-mono text-xs text-violet-300/50">FEATURED / 001</span>
           </div>
-          <a
-            href="https://medium.com/@djsexpresso/end-of-time-f7669e120def"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="grid grid-cols-1 overflow-hidden rounded-2xl border border-violet-500/20 bg-violet-950/20 md:grid-cols-2"
-          >
-            <img
-              src="https://miro.medium.com/v2/resize:fit:1200/1*zurR8uJjlhKA3pCSSZHuHw.jpeg"
-              alt="end of time cover"
-              className="h-64 w-full object-cover saturate-[.85] md:h-full"
-            />
-            <div className="flex flex-col justify-center gap-4 p-9 md:p-11">
-              <span className="w-fit rounded-full bg-fuchsia-300 px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-widest text-black">
-                Latest · 2d ago
-              </span>
-              <h3 className="font-serif-brew text-2xl font-semibold leading-tight md:text-3xl">
-                end of time
-              </h3>
-              <p className="text-sm text-violet-200/80">
-                brewed in-house by <span className="font-semibold text-violet-50">Pranay Purohit</span>
-              </p>
-              <span className="group mt-1 inline-flex items-center gap-2 text-sm font-semibold text-fuchsia-300">
-                Read the full essay on Medium
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </span>
-            </div>
-          </a>
+
+          {loading && (
+            <p className="text-violet-300/60">Brewing the latest posts…</p>
+          )}
+          {error && (
+            <p className="text-red-400 text-sm">Couldn't load Medium feed: {error}</p>
+          )}
+
+          {featured && (
+            <a
+              href={featured.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid grid-cols-1 overflow-hidden rounded-2xl border border-violet-500/20 bg-violet-950/20 md:grid-cols-2"
+            >
+              <img
+                src={featured.img}
+                alt={`${featured.title} cover`}
+                className="h-64 w-full object-cover saturate-[.85] md:h-full"
+              />
+              <div className="flex flex-col justify-center gap-4 p-9 md:p-11">
+                <span className="w-fit rounded-full bg-fuchsia-300 px-3 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-widest text-black">
+                  Latest · {featured.date}
+                </span>
+                <h3 className="font-serif-brew text-2xl font-semibold leading-tight md:text-3xl">
+                  {featured.title}
+                </h3>
+                <p className="text-sm text-violet-200/80">
+                  brewed in-house by{" "}
+                  <span className="font-semibold text-violet-50">{featured.author}</span>
+                </p>
+                <span className="group mt-1 inline-flex items-center gap-2 text-sm font-semibold text-fuchsia-300">
+                  Read the full essay on Medium
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </span>
+              </div>
+            </a>
+          )}
         </Reveal>
       </section>
 
@@ -330,13 +245,18 @@ export default function App() {
         <Reveal>
           <div className="mb-11 flex flex-wrap items-end justify-between gap-6">
             <h2 className="font-serif-brew text-3xl font-semibold">The archive</h2>
-            <span className="font-mono text-xs text-violet-300/50">002 – 009</span>
+            <span className="font-mono text-xs text-violet-300/50">
+              {rest.length ? `002 – ${String(rest.length + 1).padStart(3, "0")}` : ""}
+            </span>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {ARTICLES.map((a) => (
-              <TicketCard key={a.n} a={a} />
-            ))}
-          </div>
+
+          {!loading && !error && (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {rest.map((a) => (
+                <TicketCard key={a.n} a={a} />
+              ))}
+            </div>
+          )}
         </Reveal>
       </section>
 
@@ -355,8 +275,7 @@ export default function App() {
               <h3 className="font-serif-brew text-2xl font-semibold">eXpresso on Medium</h3>
               <p className="mt-2 max-w-xs text-sm leading-relaxed text-violet-200/80">
                 This is our main essay feed with a reflective, personal and occasionally
-                unfiltered style.   This is where new
-                work drops first.
+                unfiltered style. This is where new work drops first.
               </p>
               <div className="mt-6 font-mono text-xs text-violet-300/50">
                 @djsexpresso · <b className="text-fuchsia-300">101</b> followers
@@ -377,7 +296,7 @@ export default function App() {
               </div>
               <h3 className="font-serif-brew text-2xl font-semibold">eXpresso on Substack</h3>
               <p className="mt-2 max-w-xs text-sm leading-relaxed text-violet-200/80">
-                Home to our newletter, the same essays, straight to your
+                Home to our newsletter, the same essays, straight to your
                 inbox, plus longer-form and serialized ideas as the
                 publication grows.
               </p>
@@ -402,11 +321,11 @@ export default function App() {
         <Reveal>
           <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-500/15 to-fuchsia-400/10 px-8 py-16 text-center">
             <h2 className="font-serif-brew text-3xl font-semibold md:text-4xl">
-              Check us out on Linkedin also!
+              Check us out on LinkedIn also!
             </h2>
             <p className="mx-auto mt-3 max-w-md text-violet-200/80">
               Our editorial department puts out insightful posts frequently.
-               Do give it a read!
+              Do give it a read!
             </p>
             <a
               href="https://www.linkedin.com/company/djscexpress/posts/"
@@ -419,20 +338,6 @@ export default function App() {
           </div>
         </Reveal>
       </section>
-
-      {/* FOOTER */}
-      {/* <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-violet-500/20 px-6 py-8 text-xs text-violet-300/50 md:px-12">
-        <div>© eXpress · DJSCE's official Public Speaking &amp; Debating Committee</div>
-        <div className="flex items-center gap-3">
-          <a href="https://medium.com/@djsexpresso" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-fuchsia-300">
-            <Rss className="h-3.5 w-3.5" /> Medium
-          </a>
-          ·
-          <a href="https://substack.com/@djsexpresso" target="_blank" rel="noopener noreferrer" className="hover:text-fuchsia-300">Substack</a>
-          ·
-          <a href="https://www.djsexpress.com/" target="_blank" rel="noopener noreferrer" className="hover:text-fuchsia-300">djsexpress.com</a>
-        </div>
-      </footer> */}
     </div>
   );
 }
