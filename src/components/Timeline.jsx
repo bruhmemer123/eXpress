@@ -54,7 +54,7 @@ export default function Timeline({ events }) {
       <div className="relative" ref={listRef}>
         <div className="hidden min-[861px]:block absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 bg-border-soft z-0">
           <div
-            className="absolute inset-0 bg-[linear-gradient(180deg,white,#6d28d9)] origin-top scale-y-0"
+            className="absolute inset-0 bg-[linear-gradient(180deg,#6d28d9,#8b5cf6)] origin-top scale-y-0"
             ref={lineRef}
           />
         </div>

@@ -116,7 +116,7 @@ export default function Hero({ onExplore }) {
             </span>
           </div>
           <button
-            className="group inline-flex items-center gap-2 py-3.5 px-[26px] rounded-full border-none bg-[linear-gradient(135deg,var(--color-purple),var(--color-purple-dim))] text-white font-semibold text-[0.98rem] cursor-pointer shadow-[0_10px_30px_rgba(139,92,246,0.35)] transition-[transform,box-shadow] duration-[250ms] ease-in-out whitespace-nowrap hover:-translate-y-0.5 hover:shadow-[0_14px_34px_rgba(139,92,246,0.5)]"
+            className="group inline-flex items-center gap-2 py-3.5 px-[26px] rounded-full border-none bg-[linear-gradient(135deg,#8b5cf6,#6d28d9)] text-white font-semibold text-[0.98rem] cursor-pointer shadow-[0_10px_30px_rgba(139,92,246,0.35)] transition-[transform,box-shadow] duration-[250ms] ease-in-out whitespace-nowrap hover:-translate-y-0.5 hover:shadow-[0_14px_34px_rgba(139,92,246,0.5)]"
             onClick={onExplore}
           >
             Explore Events{" "}

@@ -9,7 +9,7 @@ const scrollToEvents = () => {
 
 const Previous_Events = () => {
   return (
-    <div>
+    <div className = "bg-black">
       <Hero onExplore={scrollToEvents} />
       <Timeline events = {events} />
     </div>

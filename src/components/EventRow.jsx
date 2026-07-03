@@ -97,7 +97,7 @@ export default function EventRow({ event, index, reversed }) {
         className={`relative group ${reversed ? "min-[861px]:order-2" : ""}`}
         ref={imgWrapRef}
       >
-        <div className="relative rounded-[18px] overflow-hidden border border-border-soft shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(139,92,246,0.08)] aspect-[4/3] max-[860px]:aspect-[16/10] bg-bg-soft after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(180deg,transparent_55%,rgba(6,5,9,0.55)_100%)] after:pointer-events-none">
+        <div className="relative rounded-[18px] overflow-hidden border border-[#8b5cf6] shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(139,92,246,0.08)] aspect-[4/3] max-[860px]:aspect-[16/10] bg-bg-soft after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(180deg,transparent_55%,rgba(6,5,9,0.55)_100%)] after:pointer-events-none">
           <img
             ref={imgRef}
             src={event.image}
@@ -127,7 +127,7 @@ export default function EventRow({ event, index, reversed }) {
           </span>
         )}
         <h3
-          className="font-display font-bold text-[clamp(1.7rem,3vw,2.5rem)] m-0 bg-[linear-gradient(135deg,#d8c9ff,#6d28d9)] bg-clip-text text-transparent"
+          className="font-display font-bold text-[clamp(1.7rem,3vw,2.5rem)] m-0 bg-[linear-gradient(135deg,#c4b5fd,#8b5cf6)] bg-clip-text text-transparent"
           ref={titleRef}
         >
           {event.title}
