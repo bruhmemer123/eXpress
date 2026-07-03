@@ -4,11 +4,11 @@ import { SlSocialYoutube } from "react-icons/sl";
 import { FaMediumM } from "react-icons/fa";
 import { SiSubstack } from "react-icons/si";
 const SOCIALS = [
-  { label: "Instagram", icon: <SlSocialInstagram /> },
-  { label: "Medium", icon: <FaMediumM /> },
-  { label: "Substack", icon: <SiSubstack /> },
-  { label: "YouTube", icon: <SlSocialYoutube /> },
-  { label: "LinkedIn", icon: <TiSocialLinkedin /> },
+  { label: "Instagram", icon: <SlSocialInstagram />, site: "https://www.instagram.com/djsce.express?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" },
+  { label: "Medium", icon: <FaMediumM />, site: "https://medium.com/@djsexpresso" },
+  { label: "Substack", icon: <SiSubstack />, site: "https://substack.com/@djsexpresso" },
+  { label: "YouTube", icon: <SlSocialYoutube />, site: "https://www.youtube.com/@DJSCEeXpress" },
+  { label: "LinkedIn", icon: <TiSocialLinkedin />, site: "https://www.linkedin.com/company/djscexpress/posts/" },
 ];
 
 export default function Footer() {
@@ -21,7 +21,7 @@ export default function Footer() {
           {SOCIALS.map((s) => (
             <a
               key={s.label}
-              href="#"
+              href={s.site}
               aria-label={s.label}
               className="w-[34px] h-[34px] rounded-[10px] border border-border-soft flex items-center justify-center text-[1.08rem] font-bold text-purple-light transition-[background-color,transform] duration-[250ms] ease-in-out hover:bg-purple/15 hover:-translate-y-0.5"
             >
