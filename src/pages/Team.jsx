@@ -17,15 +17,22 @@ export default function Team() {
   };
 
   return (
+    <>
+   
+  
+
     <div
       className="
-        min-h-screen
-        bg-linear-to-br
+      
+      bg-linear-to-br
         from-black
         via-[#180028]
         to-[#070707]
         text-white
-        p-10
+        px-4
+sm:px-6
+lg:px-10
+py-6
         flex
         flex-col
         items-center
@@ -40,7 +47,7 @@ export default function Team() {
           items-center
           justify-center
           text-center
-          min-h-[60vh]
+         min-h-[42vh]
           w-full
           overflow-hidden
         "
@@ -58,8 +65,8 @@ export default function Team() {
         />
         <h1
           className="
-            text-6xl
-            md:text-8xl
+            text-5xl
+md:text-7xl
             font-extrabold
             tracking-wide
             bg-gradient-to-r
@@ -74,11 +81,11 @@ export default function Team() {
         </h1>
         <p
           className="
-            mt-8
+            mt-5
             max-w-3xl
             text-lg
             md:text-xl
-            leading-8
+            leading-7
             text-gray-300
           "
         >
@@ -86,22 +93,10 @@ export default function Team() {
           who work tirelessly to organize events and workshops for our
           community.
         </p>
+        
         <div
           className="
-            w-44
-            h-1
-            rounded-full
             mt-10
-            bg-gradient-to-r
-            from-violet-500
-            via-purple-400
-            to-fuchsia-500
-            shadow-[0_0_20px_rgba(168,85,247,.7)]
-          "
-        />
-        <div
-          className="
-            mt-14
             flex
             flex-col
             items-center
@@ -113,9 +108,28 @@ export default function Team() {
         </div>
       </section>
 
-      {/* FACULTY */}
-      <div className="mt-7 mb-20 w-full">
-        <h2 className="text-4xl font-bold text-center">Faculty</h2>
+      {/* FACULTY  & PRINCIPAL*/}
+      <div className=" mb-12 w-full">
+        <h2 className="text-4xl font-bold text-center"> Principal </h2>
+        <div
+          className="
+            w-72
+            h-1
+            bg-gradient-to-r
+            from-violet-500
+            via-purple-400
+            to-fuchsia-500
+            mx-auto
+            rounded-full
+            mt-4
+            mb-6
+          "
+        />
+         <div className="flex flex-wrap justify-center gap-12">
+         <FacultyCard {...currentYear.leadership.principal} />
+        </div>
+        
+        <h2 className=" mt-10 text-4xl font-bold text-center">Faculty</h2>
 
         <div
           className="
@@ -128,58 +142,27 @@ export default function Team() {
             mx-auto
             rounded-full
             mt-4
-            mb-12
+            mb-6
           "
         />
 
         <div className="flex flex-wrap justify-center gap-12">
-          <FacultyCard {...currentYear.leadership.principal} />
+         
           <FacultyCard {...currentYear.leadership.faculty} />
         </div>
       </div>
 
       {/* ARCHIVE */}
-      <div className="mt-10 flex flex-col w-full">
-        <FolderArchive
+      <div className="mt-5 flex flex-col w-full">
+        <FolderArchive 
           years={Object.keys(teams)}
           selectedYear={selectedYear}
           setSelectedYear={handleYearChange}
         >
-          <div className="rounded-[32px] overflow-hidden shadow-xl relative">
-            <div
-              className="
-                relative
-                mt-8
-                overflow-hidden
-                rounded-[30px]
-                border
-                border-violet-500/30
-                shadow-[0_15px_50px_rgba(124,58,237,.25)]
-              "
-            >
-              <img
-                src={currentYear.groupPhoto}
-                alt={`${selectedYear} group photo`}
-                className="
-                  w-full
-                  h-[600px]
-                  object-cover
-                  transition-all
-                  duration-700
-                  hover:scale-105
-                "
-              />
-              <div className="absolute bottom-8 left-8">
-                <p className="uppercase tracking-[3px] text-sm text-gray-200">
-                  Year
-                </p>
-                <h2 className="text-5xl font-bold">{selectedYear}</h2>
-              </div>
-            </div>
-          </div>
+         
 
           {/* TAB TOGGLE */}
-          <div className="flex justify-center mt-12">
+          <div className="flex justify-center mt-8">
             <div
               role="tablist"
               aria-label="Team category"
@@ -243,8 +226,8 @@ export default function Team() {
 
               <button
                 role="tab"
-                aria-selected={activeTab === "community"}
-                onClick={() => setActiveTab("community")}
+                aria-selected={activeTab === "associates"}
+                onClick={() => setActiveTab("associates")}
                 className="
                   relative
                   z-10
@@ -259,17 +242,17 @@ export default function Team() {
               >
                 <span
                   className={
-                    activeTab === "community" ? "text-white" : "text-gray-400"
+                    activeTab === "associates" ? "text-white" : "text-gray-400"
                   }
                 >
-                  Co-Community
+                  Associates
                 </span>
               </button>
             </div>
           </div>
 
           {/* CONTENT */}
-          <div className="mt-16">
+          <div className="mt-10">
             {activeTab === "core" ? (
               <DepartmentGrid
                 key={`core-${selectedYear}`}
@@ -278,15 +261,49 @@ export default function Team() {
               />
             ) : (
               <DepartmentGrid
-                key={`community-${selectedYear}`}
-                departments={currentYear.community}
-                placeholderImage={placeholderImage}
-                 namesOnly
+                key={`associates-${selectedYear}`}
+                departments={currentYear.associates}
+                namesOnly={true}
               />
             )}
+          </div>
+           <div className="rounded-[32px] overflow-hidden shadow-xl relative">
+            <div
+              className="
+                relative
+                mt-8
+                overflow-hidden
+                rounded-[30px]
+                border
+                border-violet-500/30
+                shadow-[0_15px_50px_rgba(124,58,237,.25)]
+              "
+            >
+              <img
+                src={currentYear.groupPhoto}
+                alt={`${selectedYear} group photo`}
+                className="
+                  w-full
+                  h-72
+md:h-[420px]
+lg:h-[480px]
+                  object-cover
+                  transition-all
+                  duration-700
+                  hover:scale-105
+                "
+              />
+              <div className="absolute bottom-8 left-8">
+                <p className="uppercase tracking-[3px] text-sm text-gray-200">
+                  Year
+                </p>
+                <h2 className="text-5xl font-bold">{selectedYear}</h2>
+              </div>
+            </div>
           </div>
         </FolderArchive>
       </div>
     </div>
+    </>
   );
 }
