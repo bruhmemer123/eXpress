@@ -226,8 +226,8 @@ md:text-7xl
 
               <button
                 role="tab"
-                aria-selected={activeTab === "community"}
-                onClick={() => setActiveTab("community")}
+                aria-selected={activeTab === "associates"}
+                onClick={() => setActiveTab("associates")}
                 className="
                   relative
                   z-10
@@ -242,10 +242,10 @@ md:text-7xl
               >
                 <span
                   className={
-                    activeTab === "community" ? "text-white" : "text-gray-400"
+                    activeTab === "associates" ? "text-white" : "text-gray-400"
                   }
                 >
-                  Co-Community
+                  Associates
                 </span>
               </button>
             </div>
@@ -261,8 +261,8 @@ md:text-7xl
               />
             ) : (
               <DepartmentGrid
-                key={`community-${selectedYear}`}
-                departments={currentYear.community}
+                key={`associates-${selectedYear}`}
+                departments={currentYear.associates}
                 namesOnly={true}
               />
             )}
