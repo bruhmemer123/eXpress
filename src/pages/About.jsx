@@ -32,19 +32,16 @@ export default function About() {
     { title: "Building a Supportive Community", desc: "We create a strong network of like-minded individuals who support and inspire each other." }
   ];
 
-  // Track scroll position to change slides dynamically
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
       const { top, height } = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Calculate progress through the sticky container
       const totalScrollable = height - windowHeight;
       const scrolled = -top;
       const progress = Math.min(Math.max(scrolled / totalScrollable, 0), 1);
       
-      // Map progress to slide index
       const index = Math.min(Math.floor(progress * slides.length), slides.length - 1);
       setCurrentSlide(index);
     };
@@ -53,33 +50,31 @@ export default function About() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Mouse move effect for the interactive microphone spotlight
-  // Mouse move effect for the interactive microphone spotlight
   const handleMouseMove = (e) => {
     if (!containerRef.current) return;
-    // Calculate percentages based directly on the user's screen size 
-    // instead of the massive 500vh scroll container
     const x = (e.clientX / window.innerWidth) * 100;
     const y = (e.clientY / window.innerHeight) * 100;
-    
     setSpotlightPos({ x, y });
   };
 
   return (
     <div className="bg-black text-white select-none">
       
-      {/* STICKY CINEMATIC HERO ARENA */}
-      {/* Total height = 300vh to give enough scrolling headroom for 3 distinct slides */}
       <div 
         ref={containerRef} 
         onMouseMove={handleMouseMove}
+        // Added onTouchMove so the spotlight follows a user's thumb dragging on mobile!
+        onTouchMove={(e) => {
+          const touch = e.touches[0];
+          setSpotlightPos({
+            x: (touch.clientX / window.innerWidth) * 100,
+            y: (touch.clientY / window.innerHeight) * 100
+          });
+        }}
         className="relative h-[500vh] w-full"
       >
-        {/* Sticky viewport content container */}
         <div className="sticky top-0 left-0 w-full h-screen flex flex-col md:flex-row items-center justify-between overflow-hidden px-6 md:px-20 lg:px-32">
           
-          {/* BACKGROUND STAGE EFFECT */}
-          {/* Interactive purple radial spotlight that tracks the mouse pointer */}
           <div 
             className="absolute inset-0 opacity-40 transition-all duration-300 pointer-events-none"
             style={{
@@ -87,36 +82,37 @@ export default function About() {
             }}
           />
           
-          {/* LEFT: THE FIXED MICROPHONE PODIUM (Anchored to the base of the viewport) */}
-          {/* Mic silhouette - Removed the bounce, added premium mouse parallax */}
-          <div 
-            className="relative bottom-24 mt-[200px] flex flex-col items-center transition-transform duration-[50ms] ease-out"
-            style={{
-              // Moves the mic slightly in the opposite direction of your mouse cursor
-              transform: `translate(${(spotlightPos.x - 50) * -0.4}px, ${(spotlightPos.y - 50) * -0.4}px)`
-            }}
-          >
-            {/* Microphone Capsule Mesh Grid Overlay */}
-            <div className="w-16 h-24 rounded-full border-2 border-express-purple bg-black/80 shadow-[0_0_30px_rgba(155,135,245,0.3)] flex flex-col justify-around py-2 overflow-hidden px-1">
-              <div className="w-full h-[1px] bg-express-purple/50" />
-              <div className="w-full h-[1px] bg-express-purple/50" />
-              <div className="w-full h-[1px] bg-express-purple/50" />
+          {/* THE MICROPHONE */}
+          {/* Mobile: Absolute position, behind text, 15% opacity, slightly scaled down. 
+              Desktop: Relative position, left side, 100% opacity. */}
+          <div className="absolute inset-0 md:relative md:inset-auto w-full md:w-1/2 h-full flex items-end justify-center md:justify-start z-10 pointer-events-none opacity-15 md:opacity-100">
+            
+            <div 
+              className="relative bottom-0 md:bottom-24 transform scale-75 md:scale-100 flex flex-col items-center transition-transform duration-[50ms] ease-out"
+              style={{
+                transform: `translate(${(spotlightPos.x - 50) * -0.4}px, ${(spotlightPos.y - 50) * -0.4}px)`
+              }}
+            >
+              <div className="w-16 h-24 rounded-full border-2 border-express-purple bg-black/80 shadow-[0_0_30px_rgba(155,135,245,0.3)] flex flex-col justify-around py-2 overflow-hidden px-1">
+                <div className="w-full h-[1px] bg-express-purple/50" />
+                <div className="w-full h-[1px] bg-express-purple/50" />
+                <div className="w-full h-[1px] bg-express-purple/50" />
+              </div>
+              <div className="w-4 h-6 bg-zinc-800 border-x border-express-purple/40" />
+              <div className="w-1.5 h-96 bg-gradient-to-b from-zinc-700 to-zinc-950 shadow-[0_0_10px_rgba(155,135,245,0.1)]" />
             </div>
-            {/* Mechanical Connector */}
-            <div className="w-4 h-6 bg-zinc-800 border-x border-express-purple/40" />
-            {/* Long Base Shaft Stand */}
-            <div className="w-1.5 h-96 bg-gradient-to-b from-zinc-700 to-zinc-950 shadow-[0_0_10px_rgba(155,135,245,0.1)]" />
           </div>
 
-          {/* RIGHT: INTERACTIVE SLIDING TEXT ARENA */}
-          <div className="relative w-full md:w-1/2 h-1/2 md:h-full flex items-center z-20">
-            <div className="relative w-full max-w-xl h-96 flex items-center">
+          {/* THE TEXT ARENA */}
+          {/* Mobile: Full width, z-20 to sit above the faded mic. */}
+          <div className="relative w-full md:w-1/2 h-full flex items-center justify-center md:justify-start z-20">
+            <div className="relative w-full max-w-xl h-[28rem] md:h-96 flex items-center">
               {slides.map((slide, index) => {
                 const isCurrent = currentSlide === index;
                 return (
                   <div
                     key={index}
-                    className={`absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-out ${
+                    className={`absolute inset-0 flex flex-col justify-center text-center md:text-left transition-all duration-700 ease-out ${
                       isCurrent 
                         ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
                         : 'opacity-0 translate-y-12 scale-95 pointer-events-none'
@@ -128,7 +124,8 @@ export default function About() {
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-6">
                       {slide.title}
                     </h2>
-                    <p className="text-gray-400 font-light text-base md:text-lg leading-relaxed border-l-2 border-express-purple/30 pl-4">
+                    {/* Centered border and padding for mobile readability */}
+                    <p className="text-gray-300 font-light text-base md:text-lg leading-relaxed md:border-l-2 md:border-express-purple/30 md:pl-4 mx-auto md:mx-0 max-w-sm md:max-w-none">
                       {slide.text}
                     </p>
                   </div>
@@ -137,8 +134,9 @@ export default function About() {
             </div>
           </div>
 
-          {/* PERSISTENT VISUAL NAVIGATION DOT TIMELINE */}
-          <div className="absolute right-6 md:right-12 top-1/2 transform -translate-y-1/2 flex flex-col gap-4 z-30">
+          {/* NAVIGATION DOTS */}
+          {/* Mobile: Hidden or minimized so it doesn't crowd the text. Desktop: visible on right. */}
+          <div className="hidden md:flex absolute right-12 top-1/2 transform -translate-y-1/2 flex-col gap-4 z-30">
             {slides.map((_, index) => (
               <div
                 key={index}
@@ -155,11 +153,12 @@ export default function About() {
       </div>
 
       {/* CORE OBJECTIVES VALUE GRID */}
-      <section className=" py-32 border-t border-zinc-900 relative z-30">
+      {/* This grid naturally collapses into 1 column on mobile via Tailwind, so it's already perfect! */}
+      <section className="py-20 md:py-32 border-t border-zinc-900 relative z-30">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-24">
-            <span className="text-express-purple font-mono tracking-widest text-sm uppercase">Our Pillars</span>
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mt-2 text-white">
+          <div className="text-center mb-16 md:mb-24">
+            <span className="text-express-purple font-mono tracking-widest text-xs md:text-sm uppercase">Our Pillars</span>
+            <h2 className="text-3xl md:text-6xl font-black uppercase tracking-tight mt-2 text-white">
               What Do We Do?
             </h2>
             <div className="w-16 h-1 bg-express-purple mx-auto mt-4 rounded-full" />
