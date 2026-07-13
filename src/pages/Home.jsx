@@ -145,15 +145,15 @@ const currentFrame = (index) =>
   }, []);
 
   return (
-    <div className="relative min-h-[calc(100vh+4800px)]">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <div className="relative min-h-[calc(100dvh+4800px)]">
+      <div className="sticky top-0 h-[100dvh] overflow-hidden">
         <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 
         <div className="absolute top-0 left-0 z-30 h-full w-[100%] md:w-[60%] bg-gradient-to-r from-black/90 to-black/0">
           <div className="absolute inset-0 z-20 pointer-events-none">
 
             <div className="hero1 absolute bottom-12 left-6 sm:left-8">
-              <h1 className="text-white uppercase leading-none h-screen flex flex-col justify-end gap-3 md:gap-0">
+              <h1 className="text-white uppercase leading-none h-[100dvh] flex flex-col justify-end gap-3 md:gap-0">
                 <div className="ani text-5xl font-light md:text-7xl">
                   Every
                 </div>
