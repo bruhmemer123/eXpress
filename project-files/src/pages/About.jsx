@@ -8,13 +8,13 @@ export default function About() {
   const slides = [
     {
       tag: "What Are We?",
-      title: "DJS eXpress",
+      title: "DJSCE eXpress",
       text: "The official public speaking committee of DJ Sanghvi College of Engineering where we organize public speaking and debating events. We have organised many successful events in the past like Illuminare and our flagship event, Aryavarta, which have been received with a lot of support and appreciation."
     },
     {
       tag: "Our Community & Mission",
       title: "Unlock Potential",
-      text: "At DJS eXpress, we strive to unlock the potential of every student, ranging from public speaking skills to critical thinking to confident self-expression. We organize debates and discussions related to real-world problems and work on finding solutions collectively."
+      text: "At DJSCE eXpress, we strive to unlock the potential of every student, ranging from public speaking skills to critical thinking to confident self-expression. We organize debates and discussions related to real-world problems and work on finding solutions collectively."
     },
     {
       tag: "Why Choose Us?",
@@ -63,7 +63,6 @@ export default function About() {
       <div 
         ref={containerRef} 
         onMouseMove={handleMouseMove}
-        // Added onTouchMove so the spotlight follows a user's thumb dragging on mobile!
         onTouchMove={(e) => {
           const touch = e.touches[0];
           setSpotlightPos({

@@ -47,7 +47,7 @@ export default function Timeline({ events }) {
         <p className="text-text-dim text-[1.05rem] leading-[1.7] m-0">
           Thirteen editions, a dozen different formats — from ancient dynasties to
           courtroom drama to a balloon that just won't stop sinking. Scroll
-          through everything DJS eXpress has brought to campus so far.
+          through everything DJSCE eXpress has brought to campus so far.
         </p>
       </div>
 

@@ -32,7 +32,7 @@ const events = [
     title: "The Pilot: Episode 1",
     tag: "Inter-college · Sitcom Special",
     description:
-      "The Pilot: Episode One was DJS eXpress' inter-college event that brought the world of sitcoms to life on campus. With meme battles, heated debates, quirky monologues, and hilarious parodies, participants showcased their wit, creativity, and spontaneity across four thrilling rounds. The event was packed with laughter, iconic pop culture moments, and electrifying performances — all making for an unforgettable experience that truly set the stage for what DJS eXpress stands for.",
+      "The Pilot: Episode One was DJSCE eXpress' inter-college event that brought the world of sitcoms to life on campus. With meme battles, heated debates, quirky monologues, and hilarious parodies, participants showcased their wit, creativity, and spontaneity across four thrilling rounds. The event was packed with laughter, iconic pop culture moments, and electrifying performances — all making for an unforgettable experience that truly set the stage for what DJSCE eXpress stands for.",
     image: "/images/the-pilot.jpg",
   },
   {
@@ -113,7 +113,7 @@ const events = [
     title: "Chakravyuh",
     tag: "Interdepartmental Quiz · 8th–9th Sept",
     description:
-      "Chakravyuh, DJS eXpress' interdepartmental quiz, challenged teams to navigate rapid-fire rounds and layered questions — a true test of knowledge, speed, and teamwork under pressure.",
+      "Chakravyuh, DJSCE eXpress' interdepartmental quiz, challenged teams to navigate rapid-fire rounds and layered questions — a true test of knowledge, speed, and teamwork under pressure.",
     image: "/images/chakravyuh.jpg",
   },
 ];
