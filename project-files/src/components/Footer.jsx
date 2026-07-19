@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <footer className="relative z-[1] bg-black border-t border-border-soft ">
       <div className="max-w-[1280px] mx-auto py-[26px] px-8 flex items-center justify-between flex-wrap gap-4 text-[0.85rem] text-text-dim max-[640px]:justify-center max-[640px]:text-center">
-        <span>© {new Date().getFullYear()} DJS eXpress. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} DJSCE eXpress. All rights reserved.</span>
 
         <div className="flex gap-3.5">
           {SOCIALS.map((s) => (
@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
 
         <span>
-          Made with <span className="text-purple-light">♥</span> by DJS eXpress
+          Made with <span className="text-purple-light">♥</span> by DJSCE eXpress
         </span>
       </div>
     </footer>

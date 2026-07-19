@@ -35,7 +35,7 @@ const Header = () => {
             alt="DJS eXpress Logo"
             className="h-10 w-10 rounded-2xl object-cover"
           />
-          <span>DJS e<span className=" p-0 text-purple-400">X</span>press</span>
+          <span>DJSCE e<span className=" p-0 text-purple-400">X</span>press</span>
         </Link>
 
         {/* Desktop Navigation */}
