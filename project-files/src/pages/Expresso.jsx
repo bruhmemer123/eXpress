@@ -140,6 +140,7 @@ function RealReactFlipBook({ folderName, totalPages, pagePrefix }) {
         maxHeight={700}
         drawShadow={true}
         showCover={true}
+        showPageCorners={false}
         maxShadowOpacity={0.5}
         className="shadow-2xl mx-auto components-flipbook"
         style={{ background: 'transparent' }}
