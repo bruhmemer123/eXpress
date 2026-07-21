@@ -9,11 +9,13 @@ export default function Home() {
 
   useEffect(() => {
     const frameCount = 90;
-    const isMobile = window.innerWidth < 768;
-    const frameFolder = isMobile ? "mobile_frames" : "frames";
 
-    const currentFrame = (index) =>
-      `/${frameFolder}/frame_${String(index).padStart(4, "0")}.jpg`;
+const isMobile = window.innerWidth < 768;
+
+const frameFolder = isMobile ? "mobile_frames" : "frames";
+
+const currentFrame = (index) =>
+  `/${frameFolder}/frame_${String(index).padStart(4, "0")}.jpg`;
 
     const images = [];
     const canvas = canvasRef.current;
@@ -92,11 +94,10 @@ export default function Home() {
 
   useEffect(() => {
     gsap.from(".ani", {
-      y: 20,
+      y: 10,
       opacity: 0,
       delay: 0.2,
-      stagger: 0.15,
-      ease: "power2.out",
+      stagger: 0.2,
     });
   }, []);
 
@@ -144,64 +145,57 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-[calc(100vh+4800px)] bg-black">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <div className="relative min-h-[calc(100dvh+4800px)]">
+      <div className="sticky top-0 h-[100dvh] overflow-hidden">
         <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 
-        <div className="absolute top-0 left-0 z-30 h-full w-[100%] md:w-[60%] bg-gradient-to-r from-black/90 via-black/50 to-black/0">
-          
-          <div className="absolute inset-0 z-20 pointer-events-none px-6 md:px-12 lg:px-16 flex items-end pb-12 md:pb-20">
-            
-            <div className="hero1 absolute bottom-12 md:bottom-20 left-6 md:left-12 lg:left-16">
-              <h1 className="text-white uppercase leading-[1.05] flex flex-col gap-1 md:gap-2">
-                <span className="ani text-4xl sm:text-5xl font-light md:text-6xl lg:text-7xl tracking-wide">
+        <div className="absolute top-0 left-0 z-30 h-full w-[100%] md:w-[60%] bg-gradient-to-r from-black/90 to-black/0">
+          <div className="absolute inset-0 z-20 pointer-events-none">
+
+            <div className="hero1 absolute bottom-12 left-6 sm:left-8">
+              <h1 className="text-white uppercase leading-none h-[100dvh] flex flex-col justify-end gap-3 md:gap-0">
+                <div className="ani text-5xl font-light md:text-7xl">
                   Every
-                </span>
-                <span className="ani inline-block text-6xl sm:text-7xl font-extrabold bg-gradient-to-r from-violet-400 to-purple-500 bg-clip-text text-transparent md:text-8xl lg:text-9xl pb-2 tracking-tight">
+                </div>
+                <div className="ani text-7xl sm:text-6xl font-bold bg-gradient-to-r from-violet-400 to-purple-700 bg-clip-text text-transparent md:text-9xl">
                   Voice
-                </span>
-                <span className="ani text-4xl sm:text-5xl font-light md:text-6xl lg:text-7xl tracking-wide">
+                </div>
+                <div className="ani text-5xl sm:text-6xl font-light md:text-7xl">
                   Starts
-                </span>
-                <span className="ani text-4xl sm:text-5xl font-light md:text-6xl lg:text-7xl tracking-wide">
+                </div>
+                <div className="ani text-5xl sm:text-6xl font-light md:text-7xl">
                   Somewhere
-                </span>
+                </div>
               </h1>
             </div>
 
-            <div className="hero2 absolute inset-0 opacity-0 flex flex-col justify-end p-6 md:p-12 lg:p-16">
-              <div className="flex flex-col gap-2 md:gap-4 max-w-xl">
-                <h1 className="text-white font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl uppercase tracking-tighter leading-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                  EXPRESS
-                </h1>
-                <div>
-                  <p className="text-purple-300 text-xl md:text-3xl font-medium uppercase tracking-[0.2em] mb-1">
-                    To
-                  </p>
-                  <p className="text-violet-400 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase leading-none tracking-tight">
-                    Inspire
-                  </p>
-                </div>
+            <div className="hero2 absolute inset-0 opacity-0">
+              <h1 className="absolute left-5 bottom-[25%] md:bottom-1/4 text-[20vw] sm:text-[14vw] font-white [font-weight:900]">
+                EXPRESS
+              </h1>
+
+              <div className="absolute left-6 md:left-8 bottom-12">
+                <p className="text-white sm:text-6xl text-5xl font-light uppercase">To</p>
+                <p className="text-violet-400 text-6xl sm:text-7xl font-black uppercase">
+                  Inspire
+                </p>
               </div>
             </div>
 
-            <div className="hero3 absolute inset-0 opacity-0 flex flex-col justify-end p-6 md:p-12 lg:p-16">
-              <div className="flex max-w-md flex-col gap-4 md:gap-6">
-                <p className="text-white text-3xl sm:text-4xl md:text-5xl uppercase font-light tracking-wide">
-                  The Stage
-                </p>
-                <p className="text-violet-400 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase leading-none tracking-tight">
+            <div className="hero3 absolute inset-0 opacity-0">
+              <div className="absolute left-6 md:left-12 bottom-12 flex max-w-[24rem] flex-col gap-6">
+                <p className="text-white text-4xl md:text-5xl uppercase">The Stage</p>
+                <p className="text-violet-400 text-6xl md:text-8xl font-black uppercase">
                   Is Waiting
                 </p>
-                <button className="pointer-events-auto text-sm md:text-base inline-flex w-fit rounded-full bg-violet-600 px-8 py-3.5 font-bold text-white transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-violet-500 hover:shadow-[0_10px_25px_rgba(139,92,246,0.4)] mt-2">
+                <button className="pointer-events-auto text-sm md:text-lg inline-flex w-fit rounded-full bg-violet-600 px-8 py-4 font-bold text-white transition-transform duration-200 ease-in-out hover:-translate-y-0.5">
                   Join eXpress →
                 </button>
               </div>
             </div>
-
-          </div> 
-        </div> 
-      </div> 
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
