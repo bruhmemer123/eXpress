@@ -25,7 +25,7 @@ export default function Hero({ onExplore }) {
       });
 
       // background: slow zoom the whole way through
-      tl.fromTo(bgRef.current, { scale: 1.2 }, { scale: 0.3, ease: "none", duration: 3 }, 0);
+      tl.fromTo(bgRef.current, { scale: 1.1 }, { scale: 0, ease: "none", duration: 2 }, 0);
 
       // Stage 1 -> out
       tl.fromTo(
@@ -72,7 +72,7 @@ export default function Hero({ onExplore }) {
           <h1 className="font-display font-bold text-[clamp(2.8rem,6vw,4.5rem)] leading-[1.05] text-text">
             Previous Events
           </h1>
-          <p className="font-body font-normal text-[clamp(1rem,2vw,1.35rem)] text-text-dim mt-2.5">
+          <p className="lg:text-2xl md:text-xl sm:text-lg font-body font-normal text-text-dim mt-2.5">
             A journey through the <em className="not-italic text-purple-light font-bold">memories</em> of our past events
           </p>
         </div>
