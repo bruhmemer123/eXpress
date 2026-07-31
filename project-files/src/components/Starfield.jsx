@@ -1,8 +1,5 @@
 import { useEffect, useRef } from "react";
 
-// A soft, drifting dot-field matching DJS eXpress' existing dark/purple
-// aesthetic. Pure canvas, cheap on CPU, pauses off-screen automatically
-// since it's fixed behind everything.
 export default function Starfield({ density = 90 }) {
   const canvasRef = useRef(null);
 
@@ -16,7 +13,7 @@ export default function Starfield({ density = 90 }) {
     const resize = () => {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
-      const count = Math.round((w * h) / 14000) + density;
+      const count = Math.round((w * h) / 1000) + density;
       dots = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -32,7 +29,7 @@ export default function Starfield({ density = 90 }) {
         d.y += d.drift;
         if (d.y < 0) d.y = h;
         if (d.y > h) d.y = 0;
-        const twinkle = 0.35 + 0.35 * Math.sin(t * 0.0006 + d.phase);
+        const twinkle = 0.35 + 0.85 * Math.sin(t * 0.0006 + d.phase);
         ctx.beginPath();
         ctx.fillStyle = `rgba(196, 181, 253, ${twinkle})`;
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
