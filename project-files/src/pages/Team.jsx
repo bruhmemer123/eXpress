@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { teams } from "../data/teams";
+import { teams } from "../data/teams.jsx";
 import FolderArchive from "../components/FolderArchive";
 import FacultyCard from "../components/FacultyCard";
 import DepartmentGrid from "../components/DepartmentGrid";

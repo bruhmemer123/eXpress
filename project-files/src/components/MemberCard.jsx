@@ -1,22 +1,50 @@
-import React from "react";
-import { FaLinkedinIn } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
 
-const MemberCard = ({ name, position, image, linkedin }) => {
+// Extensions to try, in order, when `image` is passed WITHOUT an extension
+// e.g. image="/teams/2025-2026/core/dhruv-thakur"
+const EXTENSIONS = ["jpg", "jpeg", "png", "webp","heic",];
+
+const MemberCard = ({ name, position, image }) => {
+  const hasExtension = image ? /\.(jpg|jpeg|png|webp)$/i.test(image) : false;
+
+  const [extIndex, setExtIndex] = useState(0);
+  const [imgError, setImgError] = useState(false);
+
+  // Reset when the member (and thus image) changes
+  useEffect(() => {
+    setExtIndex(0);
+    setImgError(false);
+  }, [image]);
+
+  // If image already has an extension, use it as-is; otherwise build it
+  const resolvedSrc = hasExtension
+    ? image
+    : image
+    ? `${image}.${EXTENSIONS[extIndex]}`
+    : null;
+
+  const handleError = () => {
+    if (!hasExtension && extIndex < EXTENSIONS.length - 1) {
+      setExtIndex((i) => i + 1); // try the next extension
+    } else {
+      setImgError(true); // give up, show initials fallback
+    }
+  };
+
   return (
     <div
-    
-        className="
+      className="
     w-full
-    max-w-[160px]
-    sm:max-w-[180px]
-    md:max-w-[210px]
-    lg:max-w-[230px]
-    xl:max-w-[250px]
+    max-w-[180px]
+    sm:max-w-[210px]
+    md:max-w-[240px]
+    lg:max-w-[260px]
+    xl:max-w-[280px]
 
-    p-3
-    sm:p-4
-    md:p-5
-    lg:p-6
+    p-4
+    sm:p-5
+    md:p-6
+    lg:p-7
 
     rounded-xl
     sm:rounded-2xl
@@ -36,18 +64,18 @@ const MemberCard = ({ name, position, image, linkedin }) => {
     hover:border-[var(--violet-light)]
     hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]
   "
-      
     >
-      {image ? (
+      {resolvedSrc && !imgError ? (
         <img
-          src={image}
+          src={resolvedSrc}
           alt={name}
+          onError={handleError}
           className="
-            w-12 h-12
-    sm:w-16 sm:h-16
-    md:w-20 md:h-20
-    lg:w-24 lg:h-24
-    xl:w-26 xl:h-26
+            w-16 h-16
+    sm:w-20 sm:h-20
+    md:w-24 md:h-24
+    lg:w-28 lg:h-28
+    xl:w-32 xl:h-32
 
     rounded-full
     object-cover
@@ -64,6 +92,7 @@ const MemberCard = ({ name, position, image, linkedin }) => {
             sm:w-20 sm:h-20
             md:w-24 md:h-24
             lg:w-28 lg:h-28
+            xl:w-32 xl:h-32
             rounded-full
             bg-gradient-to-br
             from-violet-600
@@ -71,10 +100,10 @@ const MemberCard = ({ name, position, image, linkedin }) => {
             flex
             items-center
             justify-center
-            text-sm
-    sm:text-base
-    md:text-lg
-    lg:text-xl
+            text-base
+    sm:text-lg
+    md:text-xl
+    lg:text-2xl
             font-bold
             text-white
           "
@@ -85,11 +114,11 @@ const MemberCard = ({ name, position, image, linkedin }) => {
 
       <h2
         className="
-          mt-2
-          sm:mt-3
-          text-base
-          sm:text-lg
-          md:text-xl
+          mt-3
+          sm:mt-4
+          text-lg
+          sm:text-xl
+          md:text-2xl
           font-bold
           text-center
           leading-tight
@@ -101,46 +130,15 @@ const MemberCard = ({ name, position, image, linkedin }) => {
         className="
           text-purple-300
           mt-1
-           text-xs
-    sm:text-sm
-    md:text-base
+           text-sm
+    sm:text-base
+    md:text-lg
 
           text-center
         "
       >
         {position}
       </p>
-
-      {linkedin && (
-        <div className="flex gap-4 mt-3 sm:mt-4">
-          <a
-            href={linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              w-6 h-6
-              sm:w-7 sm:h-7
-              md:w-8 md:h-8
-              flex items-center justify-center
-              rounded-full
-              bg-[#2A1B47]
-              border border-purple-600/50
-              text-gray-300
-              text-xs
-    sm:text-sm
-    md:text-base
-              transition-all
-              duration-300
-              hover:bg-purple-600
-              hover:text-white
-              hover:scale-110
-              hover:shadow-[0_0_16px_rgba(168,85,247,0.6)]
-            "
-          >
-            <FaLinkedinIn />
-          </a>
-        </div>
-      )}
     </div>
   );
 };
