@@ -1,9 +1,45 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// --- Reusable Reveal Animation (from Theme) ---
+function Reveal({ children, className = "", delay = 0 }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => entry.isIntersecting && setVisible(true),
+      { threshold: 0.1 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
+      className={`transition-all duration-700 ease-out ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      } ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function About() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const containerRef = useRef(null);
+  const micContainerRef = useRef(null);
+  
   const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 50 });
+
+  // Physics state exclusively for the microphone
+  const [isDragging, setIsDragging] = useState(false);
+  const [micPos, setMicPos] = useState({ x: 50, y: 40 }); 
+  const dragStart = useRef({ mouseX: 0, mouseY: 0, startMicX: 50, startMicY: 40 });
 
   const slides = [
     {
@@ -32,80 +68,183 @@ export default function About() {
     { title: "Building a Supportive Community", desc: "We create a strong network of like-minded individuals who support and inspire each other." }
   ];
 
+  // MAGNETIC SNAP OBSERVER
   useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const { top, height } = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      const totalScrollable = height - windowHeight;
-      const scrolled = -top;
-      const progress = Math.min(Math.max(scrolled / totalScrollable, 0), 1);
-      
-      const index = Math.min(Math.floor(progress * slides.length), slides.length - 1);
-      setCurrentSlide(index);
-    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = Number(entry.target.getAttribute('data-index'));
+          if (!isNaN(index)) setCurrentSlide(index);
+        }
+      });
+    }, {
+      root: containerRef.current,
+      threshold: 0.5 
+    });
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const tracks = document.querySelectorAll('.track-slide');
+    tracks.forEach((track) => observer.observe(track));
+
+    return () => observer.disconnect();
   }, []);
 
   const handleMouseMove = (e) => {
-    if (!containerRef.current) return;
     const x = (e.clientX / window.innerWidth) * 100;
     const y = (e.clientY / window.innerHeight) * 100;
     setSpotlightPos({ x, y });
   };
 
+  // --- INTERACTIVE ROPE PHYSICS LOGIC ---
+  const handlePointerDown = (e) => {
+    setIsDragging(true);
+    dragStart.current = { 
+      mouseX: e.clientX, 
+      mouseY: e.clientY,
+      startMicX: micPos.x,
+      startMicY: micPos.y
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e) => {
+    if (!isDragging || !micContainerRef.current) return;
+    
+    const rect = micContainerRef.current.getBoundingClientRect();
+    const deltaX = ((e.clientX - dragStart.current.mouseX) / rect.width) * 100;
+    const deltaY = ((e.clientY - dragStart.current.mouseY) / rect.height) * 100;
+    
+    setMicPos({
+      x: Math.max(5, Math.min(95, dragStart.current.startMicX + deltaX)),
+      y: Math.max(5, Math.min(85, dragStart.current.startMicY + deltaY))
+    });
+  };
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false);
+    setMicPos({ x: 50, y: 40 }); 
+    e.currentTarget.releasePointerCapture(e.pointerId);
+  };
+
+  const yDiff = micPos.y - 40; 
+  const xDiff = micPos.x - 50;
+  const isSlack = yDiff < 0; 
+  const sag = Math.abs(xDiff) * 0.15; 
+  const cpX = 50 + (xDiff * 0.3) + (isSlack ? (xDiff * 1.5) : 0);
+  const cpY = (micPos.y * 0.4) + sag + (isSlack ? Math.abs(yDiff) * 1.2 : 0);
+
+  const springTransition = isDragging ? 'none' : 'all 1.2s cubic-bezier(0.4, 2.8, 0.3, 0.8)';
+
   return (
-    <div className="bg-black text-white select-none">
+    <div 
+      ref={containerRef}
+      className="bg-black font-sans text-violet-50 select-none h-screen w-full overflow-y-scroll overflow-x-hidden snap-y snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+      onMouseMove={handleMouseMove}
+    >
+      {/* THEME STYLES INJECTED */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        .font-serif-brew { font-family: 'Fraunces', serif; }
+        .font-sans       { font-family: 'Space Grotesk', sans-serif; }
+        .font-mono       { font-family: 'JetBrains Mono', monospace; }
+        @keyframes float-orb {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33%       { transform: translate(30px, -20px) scale(1.05); }
+          66%       { transform: translate(-20px, 15px) scale(0.97); }
+        }
+        .orb { animation: float-orb 14s ease-in-out infinite; }
+        .orb-2 { animation: float-orb 18s ease-in-out infinite reverse; }
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .marquee-track { animation: marquee 26s linear infinite; }
+      `}</style>
       
-      <div 
-        ref={containerRef} 
-        onMouseMove={handleMouseMove}
-        onTouchMove={(e) => {
-          const touch = e.touches[0];
-          setSpotlightPos({
-            x: (touch.clientX / window.innerWidth) * 100,
-            y: (touch.clientY / window.innerHeight) * 100
-          });
-        }}
-        className="relative h-[500vh] w-full"
-      >
-        <div className="sticky top-0 left-0 w-full h-screen flex flex-col md:flex-row items-center justify-between overflow-hidden px-6 md:px-20 lg:px-32">
+      {/* SECTION 1: THE STICKY ARENA */}
+      <div className="relative w-full h-[300vh]">
+        
+        <div className="sticky top-0 left-0 w-full h-screen flex flex-col md:flex-row items-center justify-between overflow-hidden px-6 md:px-12 z-10 border-b border-violet-500/20">
           
           <div 
             className="absolute inset-0 opacity-40 transition-all duration-300 pointer-events-none"
             style={{
-              background: `radial-gradient(circle 350px at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(155,135,245,0.15) 0%, transparent 100%)`
+              background: `radial-gradient(circle 350px at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(139,92,246,0.15) 0%, transparent 100%)`
             }}
           />
           
-          {/* THE MICROPHONE */}
-          {/* Mobile: Absolute position, behind text, 15% opacity, slightly scaled down. 
-              Desktop: Relative position, left side, 100% opacity. */}
-          <div className="absolute inset-0 md:relative md:inset-auto w-full md:w-1/2 h-full flex items-end justify-center md:justify-start z-10 pointer-events-none opacity-15 md:opacity-100">
+          {/* THE HANGING INTERACTIVE MICROPHONE */}
+          <div 
+            ref={micContainerRef}
+            className="absolute inset-0 md:relative md:inset-auto w-full md:w-1/2 h-full z-20 overflow-visible"
+          >
             
-            <div 
-              className="relative bottom-0 md:bottom-24 transform scale-75 md:scale-100 flex flex-col items-center transition-transform duration-[50ms] ease-out"
-              style={{
-                transform: `translate(${(spotlightPos.x - 50) * -0.4}px, ${(spotlightPos.y - 50) * -0.4}px)`
-              }}
+            <svg 
+              viewBox="0 0 100 100" 
+              preserveAspectRatio="none" 
+              className="absolute top-0 left-0 w-full h-full pointer-events-none"
             >
-              <div className="w-16 h-24 rounded-full border-2 border-express-purple bg-black/80 shadow-[0_0_30px_rgba(155,135,245,0.3)] flex flex-col justify-around py-2 overflow-hidden px-1">
-                <div className="w-full h-[1px] bg-express-purple/50" />
-                <div className="w-full h-[1px] bg-express-purple/50" />
-                <div className="w-full h-[1px] bg-express-purple/50" />
+              <path d="M 0 0 L 100 100" fill="none" stroke="none" />
+              <path 
+                d={`M 50 0 Q ${cpX} ${cpY} ${micPos.x} ${micPos.y}`}
+                stroke="#52525b" 
+                strokeWidth="16" // Wire heavily thickened
+                vectorEffect="non-scaling-stroke" 
+                fill="none" 
+                strokeLinecap="round"
+                style={{ transition: springTransition }}
+              />
+            </svg>
+
+            {/* Draggable Steely Chrome Mic Capsule */}
+            <div 
+              className={`absolute flex flex-col items-center pointer-events-auto group ${
+                isDragging ? 'cursor-grabbing' : 'cursor-grab'
+              }`}
+              style={{
+                left: `${micPos.x}%`,
+                top: `${micPos.y}%`,
+                transform: `translate(-50%, -2px) rotate(${(micPos.x - 50) * 0.8}deg)`,
+                transformOrigin: 'top center',
+                transition: springTransition
+              }}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+            >
+              {/* Steely Wire Mount / Cap (U-bracket completely removed, replaced with sleek XLR block) */}
+              <div className="w-10 h-16 bg-gradient-to-b from-zinc-600 to-zinc-900 border-x-2 border-zinc-500 rounded-b-lg z-20 shadow-[0_5px_15px_rgba(0,0,0,0.5)] flex flex-col justify-end items-center relative">
+                 <div className="absolute top-0 w-5 h-full bg-zinc-950/40" />
+                 {/* Mount Attachment Ring */}
+                 <div className="w-14 h-4 bg-zinc-700 rounded-full border border-zinc-500 shadow-md -mb-2 z-30" />
               </div>
-              <div className="w-4 h-6 bg-zinc-800 border-x border-express-purple/40" />
-              <div className="w-1.5 h-96 bg-gradient-to-b from-zinc-700 to-zinc-950 shadow-[0_0_10px_rgba(155,135,245,0.1)]" />
+              
+              {/* Main Chrome Mic Capsule (Massively scaled up) */}
+              <div className="w-32 h-64 bg-gradient-to-b from-zinc-200 via-zinc-400 to-zinc-500 rounded-full border-[4px] border-zinc-400 shadow-[inset_-6px_-6px_20px_rgba(0,0,0,0.3),_0_24px_60px_rgba(0,0,0,0.8)] flex flex-col items-center p-2.5 z-10 overflow-hidden group-hover:border-zinc-300 group-hover:shadow-[0_24px_60px_rgba(217,70,239,0.2)] transition-all duration-300">
+                
+                <div className="w-full h-1/2 bg-gradient-to-b from-zinc-400 to-zinc-600 rounded-t-full shadow-inner relative overflow-hidden border-b-[5px] border-zinc-700">
+                   {/* Thicker Mesh Pattern */}
+                   <div className="absolute inset-0 opacity-60 bg-[repeating-linear-gradient(45deg,transparent,transparent_4px,#18181b_4px,#18181b_8px)]" />
+                   <div className="absolute inset-0 opacity-60 bg-[repeating-linear-gradient(-45deg,transparent,transparent_4px,#18181b_4px,#18181b_8px)]" />
+                   <div className="absolute top-2 left-3 w-6 h-20 bg-white/20 blur-md rounded-full transform -rotate-12" />
+                </div>
+                
+                <div className="w-full h-1/2 flex flex-col items-center justify-center relative">
+                   <div className="absolute w-full h-[3px] bg-zinc-600 top-5 shadow-sm" />
+                   <div className="absolute w-full h-[3px] bg-zinc-600 top-10 shadow-sm" />
+                   
+                   {/* LED Button */}
+                   <div className={`w-5 h-5 rounded-full mt-10 border border-zinc-800 transition-all duration-300 ${
+                     isDragging 
+                       ? 'bg-fuchsia-400 shadow-[0_0_25px_#d946ef] animate-pulse' 
+                       : 'bg-zinc-700 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]'
+                   }`} />
+                </div>
+              </div>
             </div>
+            
           </div>
 
           {/* THE TEXT ARENA */}
-          {/* Mobile: Full width, z-20 to sit above the faded mic. */}
-          <div className="relative w-full md:w-1/2 h-full flex items-center justify-center md:justify-start z-20">
-            <div className="relative w-full max-w-xl h-[28rem] md:h-96 flex items-center">
+          <div className="relative w-full md:w-1/2 h-full flex items-center justify-center md:justify-start z-10 pointer-events-none mt-40 md:mt-0">
+            <div className="relative w-full max-w-xl h-[28rem] md:h-96 flex items-center pl-0 md:pl-12">
               {slides.map((slide, index) => {
                 const isCurrent = currentSlide === index;
                 return (
@@ -113,18 +252,18 @@ export default function About() {
                     key={index}
                     className={`absolute inset-0 flex flex-col justify-center text-center md:text-left transition-all duration-700 ease-out ${
                       isCurrent 
-                        ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
-                        : 'opacity-0 translate-y-12 scale-95 pointer-events-none'
+                        ? 'opacity-100 translate-y-0 scale-100' 
+                        : 'opacity-0 translate-y-12 scale-95'
                     }`}
                   >
-                    <span className="text-express-purple text-xs font-bold uppercase tracking-[0.3em] mb-3 block">
+                    <div className="mb-5 flex items-center justify-center md:justify-start gap-2.5 font-mono text-xs uppercase tracking-[0.18em] text-fuchsia-300">
+                      <span className="h-px w-6 bg-fuchsia-300" />
                       {slide.tag}
-                    </span>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-6">
+                    </div>
+                    <h2 className="font-serif-brew text-5xl md:text-6xl font-semibold leading-[0.98] tracking-tight mb-6">
                       {slide.title}
                     </h2>
-                    {/* Centered border and padding for mobile readability */}
-                    <p className="text-gray-300 font-light text-base md:text-lg leading-relaxed md:border-l-2 md:border-express-purple/30 md:pl-4 mx-auto md:mx-0 max-w-sm md:max-w-none">
+                    <p className="text-violet-200/80 text-base md:text-lg leading-relaxed max-w-sm md:max-w-none mx-auto md:mx-0">
                       {slide.text}
                     </p>
                   </div>
@@ -134,51 +273,91 @@ export default function About() {
           </div>
 
           {/* NAVIGATION DOTS */}
-          {/* Mobile: Hidden or minimized so it doesn't crowd the text. Desktop: visible on right. */}
-          <div className="hidden md:flex absolute right-12 top-1/2 transform -translate-y-1/2 flex-col gap-4 z-30">
+          <div className="hidden md:flex absolute right-12 top-1/2 transform -translate-y-1/2 flex-col gap-4 z-30 pointer-events-none">
             {slides.map((_, index) => (
               <div
                 key={index}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   currentSlide === index 
-                    ? 'bg-express-purple h-8 shadow-[0_0_10px_#9b87f5]' 
-                    : 'bg-zinc-700'
+                    ? 'bg-fuchsia-300 h-8 shadow-[0_0_10px_#d946ef]' 
+                    : 'bg-violet-900/50'
                 }`}
               />
             ))}
           </div>
 
         </div>
+
+        {/* INVISIBLE MAGNETIC SNAP TRACKS */}
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col pointer-events-none z-0">
+          {slides.map((_, index) => (
+            <div 
+              key={index} 
+              data-index={index}
+              className="track-slide w-full h-screen snap-center" 
+            />
+          ))}
+        </div>
+
       </div>
 
-      {/* CORE OBJECTIVES VALUE GRID */}
-      {/* This grid naturally collapses into 1 column on mobile via Tailwind, so it's already perfect! */}
-      <section className="py-20 md:py-32 border-t border-zinc-900 relative z-30">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16 md:mb-24">
-            <span className="text-express-purple font-mono tracking-widest text-xs md:text-sm uppercase">Our Pillars</span>
-            <h2 className="text-3xl md:text-6xl font-black uppercase tracking-tight mt-2 text-white">
-              What Do We Do?
-            </h2>
-            <div className="w-16 h-1 bg-express-purple mx-auto mt-4 rounded-full" />
-          </div>
+      {/* SECTION 2: TICKER & CORE OBJECTIVES */}
+      <section className="snap-start min-h-screen bg-black relative z-30 flex flex-col overflow-hidden">
+        
+        <div
+          className="orb pointer-events-none absolute left-[-10%] top-20 h-72 w-72 rounded-full opacity-20"
+          style={{ background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)" }}
+        />
+        <div
+          className="orb-2 pointer-events-none absolute right-[-10%] bottom-20 h-72 w-72 rounded-full opacity-15"
+          style={{ background: "radial-gradient(circle, #d946ef 0%, transparent 70%)" }}
+        />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        <div className="overflow-hidden whitespace-nowrap border-b border-violet-500/20 bg-violet-950/30 py-3 relative z-10">
+          <div className="marquee-track inline-block">
+            {Array(2)
+              .fill(0)
+              .map((_, i) => (
+                <span key={i} className="font-mono text-xs tracking-wide text-violet-300/50">
+                  <span className="px-7">Public Speaking & Debating</span>
+                  <span className="px-7">•</span>
+                  <span className="px-7"><b className="font-semibold text-fuchsia-300">Aryavarta</b> & <b className="font-semibold text-fuchsia-300">Illuminare</b></span>
+                  <span className="px-7">•</span>
+                  <span className="px-7">DJSCE's Official Committee</span>
+                  <span className="px-7">•</span>
+                  <span className="px-7">Building future leaders</span>
+                  <span className="px-7">•</span>
+                </span>
+              ))}
+          </div>
+        </div>
+
+        <div className="container mx-auto px-6 py-20 md:px-12 md:py-24 relative z-10 flex-grow flex flex-col justify-center">
+          <Reveal>
+            <div className="mb-11 flex flex-wrap items-end justify-between gap-6">
+              <h2 className="font-serif-brew text-4xl md:text-5xl font-semibold">What Do We Do?</h2>
+              <span className="font-mono text-xs text-violet-300/50">OUR PILLARS</span>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {pillars.map((pillar, index) => (
-              <div 
-                key={index}
-                className="p-8 rounded-2xl bg-black border border-zinc-900 hover:border-express-purple/40 transition-all duration-300 group hover:-translate-y-1 flex flex-col h-full"
-              >
-                <div className="w-10 h-10 rounded-xl bg-express-purple/10 border border-express-purple/20 flex items-center justify-center mb-6 group-hover:bg-express-purple/20 transition-colors">
-                  <span className="text-express-purple font-mono font-bold">{index + 1}</span>
+              <Reveal key={index} delay={index * 100}>
+                <div className="group relative block h-full rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/50 to-black p-8 overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:border-violet-400 hover:shadow-2xl hover:shadow-violet-500/20">
+                  
+                  <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-xl border border-violet-500/25 bg-violet-500/10 group-hover:bg-violet-500/20 transition-colors">
+                    <span className="font-mono text-sm font-bold text-fuchsia-300">{index + 1}</span>
+                  </div>
+                  
+                  <h3 className="font-serif-brew text-xl font-semibold text-violet-50 mb-3">
+                    {pillar.title}
+                  </h3>
+                  
+                  <p className="text-sm leading-relaxed text-violet-200/80">
+                    {pillar.desc}
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold mb-3 text-white tracking-wide group-hover:text-express-purple transition-colors">
-                  {pillar.title}
-                </h3>
-                <p className="text-gray-500 font-light text-sm leading-relaxed flex-grow">
-                  {pillar.desc}
-                </p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
