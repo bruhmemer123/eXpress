@@ -169,10 +169,10 @@ export default function About() {
             }}
           />
           
-          {/* THE HANGING INTERACTIVE MICROPHONE */}
+          {/* THE HANGING INTERACTIVE MICROPHONE (Hidden on mobile via hidden md:block) */}
           <div 
             ref={micContainerRef}
-            className="absolute inset-0 md:relative md:inset-auto w-full md:w-1/2 h-full z-20 overflow-visible"
+            className="hidden md:block absolute inset-0 md:relative md:inset-auto w-full md:w-1/2 h-full z-20 overflow-visible"
           >
             
             <svg 
@@ -184,7 +184,7 @@ export default function About() {
               <path 
                 d={`M 50 0 Q ${cpX} ${cpY} ${micPos.x} ${micPos.y}`}
                 stroke="#52525b" 
-                strokeWidth="16" // Wire heavily thickened
+                strokeWidth="16" 
                 vectorEffect="non-scaling-stroke" 
                 fill="none" 
                 strokeLinecap="round"
@@ -209,18 +209,13 @@ export default function About() {
               onPointerUp={handlePointerUp}
               onPointerCancel={handlePointerUp}
             >
-              {/* Steely Wire Mount / Cap (U-bracket completely removed, replaced with sleek XLR block) */}
               <div className="w-10 h-16 bg-gradient-to-b from-zinc-600 to-zinc-900 border-x-2 border-zinc-500 rounded-b-lg z-20 shadow-[0_5px_15px_rgba(0,0,0,0.5)] flex flex-col justify-end items-center relative">
                  <div className="absolute top-0 w-5 h-full bg-zinc-950/40" />
-                 {/* Mount Attachment Ring */}
                  <div className="w-14 h-4 bg-zinc-700 rounded-full border border-zinc-500 shadow-md -mb-2 z-30" />
               </div>
               
-              {/* Main Chrome Mic Capsule (Massively scaled up) */}
               <div className="w-32 h-64 bg-gradient-to-b from-zinc-200 via-zinc-400 to-zinc-500 rounded-full border-[4px] border-zinc-400 shadow-[inset_-6px_-6px_20px_rgba(0,0,0,0.3),_0_24px_60px_rgba(0,0,0,0.8)] flex flex-col items-center p-2.5 z-10 overflow-hidden group-hover:border-zinc-300 group-hover:shadow-[0_24px_60px_rgba(217,70,239,0.2)] transition-all duration-300">
-                
                 <div className="w-full h-1/2 bg-gradient-to-b from-zinc-400 to-zinc-600 rounded-t-full shadow-inner relative overflow-hidden border-b-[5px] border-zinc-700">
-                   {/* Thicker Mesh Pattern */}
                    <div className="absolute inset-0 opacity-60 bg-[repeating-linear-gradient(45deg,transparent,transparent_4px,#18181b_4px,#18181b_8px)]" />
                    <div className="absolute inset-0 opacity-60 bg-[repeating-linear-gradient(-45deg,transparent,transparent_4px,#18181b_4px,#18181b_8px)]" />
                    <div className="absolute top-2 left-3 w-6 h-20 bg-white/20 blur-md rounded-full transform -rotate-12" />
@@ -230,7 +225,6 @@ export default function About() {
                    <div className="absolute w-full h-[3px] bg-zinc-600 top-5 shadow-sm" />
                    <div className="absolute w-full h-[3px] bg-zinc-600 top-10 shadow-sm" />
                    
-                   {/* LED Button */}
                    <div className={`w-5 h-5 rounded-full mt-10 border border-zinc-800 transition-all duration-300 ${
                      isDragging 
                        ? 'bg-fuchsia-400 shadow-[0_0_25px_#d946ef] animate-pulse' 
@@ -243,7 +237,7 @@ export default function About() {
           </div>
 
           {/* THE TEXT ARENA */}
-          <div className="relative w-full md:w-1/2 h-full flex items-center justify-center md:justify-start z-10 pointer-events-none mt-40 md:mt-0">
+          <div className="relative w-full md:w-1/2 h-full flex items-center justify-center md:justify-start z-10 pointer-events-none">
             <div className="relative w-full max-w-xl h-[28rem] md:h-96 flex items-center pl-0 md:pl-12">
               {slides.map((slide, index) => {
                 const isCurrent = currentSlide === index;
