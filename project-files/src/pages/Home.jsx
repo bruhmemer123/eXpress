@@ -153,7 +153,7 @@ const currentFrame = (index) =>
           <div className="absolute inset-0 z-20 pointer-events-none">
 
             <div className="hero1 absolute bottom-12 left-6 sm:left-8">
-              <h1 className="text-white uppercase leading-none h-[100dvh] flex flex-col justify-end gap-3 md:gap-0">
+              <h1 className="text-white uppercase h-[100dvh] flex flex-col justify-end gap-3 md:gap-0">
                 <div className="ani text-5xl font-light md:text-7xl">
                   Every
                 </div>

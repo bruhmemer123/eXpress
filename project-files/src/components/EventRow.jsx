@@ -78,7 +78,7 @@ export default function EventRow({ event, index, reversed }) {
 
   return (
     <div
-      className={`relative grid items-center gap-[150px] py-[70px] max-[860px]:grid-cols-1 max-[860px]:gap-[26px] max-[860px]:py-10 ${
+      className={`relative grid items-center gap-[150px] max-[860px]:grid-cols-1 max-[860px]:gap-[26px] ${
         reversed
           ? "grid-cols-[minmax(0,1fr)_minmax(0,460px)]"
           : "grid-cols-[minmax(0,460px)_minmax(0,1fr)]"
