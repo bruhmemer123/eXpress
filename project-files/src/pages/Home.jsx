@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     const frameCount = 90;
 
-const isMobile = window.innerWidth < 768;
+const isMobile = window.innerWidth < 600;
 
 const frameFolder = isMobile ? "mobile_frames" : "frames";
 
@@ -138,7 +138,7 @@ tl.to(".hero1", {
       <div className="sticky top-0 h-[100dvh] overflow-hidden">
         <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 
-        <div className="absolute top-0 left-0 z-30 h-full w-[100%] md:w-[60%] bg-gradient-to-r from-black/90 to-black/0">
+        <div className="absolute top-0 left-0 z-30 h-full w-[100%] md:w-[60%] bg-gradient-to-r from-black/80 to-black/0">
           <div className="absolute inset-0 z-20 pointer-events-none">
 
             <div className="hero1 absolute bottom-12 left-6 sm:left-8">
