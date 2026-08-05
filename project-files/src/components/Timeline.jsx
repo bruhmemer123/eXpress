@@ -9,6 +9,7 @@ export default function Timeline({ events }) {
   const sectionRef = useRef(null);
   const lineRef = useRef(null);
   const listRef = useRef(null);
+  const progressFillRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -27,6 +28,22 @@ export default function Timeline({ events }) {
           },
         }
       );
+
+      gsap.fromTo(
+        progressFillRef.current,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          ease: "none",
+          transformOrigin: "left center",
+          scrollTrigger: {
+            trigger: listRef.current,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: 0.4,
+          },
+        }
+      );
     }, sectionRef);
     return () => ctx.revert();
   }, []);
@@ -37,6 +54,16 @@ export default function Timeline({ events }) {
       id="timeline"
       ref={sectionRef}
     >
+      <div className="min-[861px]:hidden fixed left-0 right-0 bottom-0 z-50 pointer-events-none px-4 pb-[calc(env(safe-area-inset-bottom)+12px)]">
+        <div className="h-1 rounded-full bg-white/10 overflow-hidden border border-white/10 backdrop-blur-sm shadow-[0_0_24px_rgba(0,0,0,0.35)]">
+          <div
+            className="h-full w-full origin-left bg-[linear-gradient(90deg,#6d28d9,#8b5cf6,#c4b5fd)]"
+            ref={progressFillRef}
+            style={{ transform: "scaleX(0)" }}
+          />
+        </div>
+      </div>
+
       <div className="max-w-[720px] mx-auto mb-[60px] text-center">
         <span className="inline-block text-xs font-mono font-semibold tracking-[0.2em] uppercase text-purple-light py-[7px] px-4 mt-10 border border-border-soft rounded-full mb-5">
           Previous Events
