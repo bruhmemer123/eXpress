@@ -1,0 +1,10 @@
+{
+  "name": "express-root",
+  "private": true,
+  "scripts": {
+    "install": "npm --prefix project-files install",
+    "dev": "npm --prefix project-files run dev -- --host 0.0.0.0",
+    "build": "npm --prefix project-files run build",
+    "preview": "npm --prefix project-files run preview"
+  }
+}
