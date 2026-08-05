@@ -21,9 +21,8 @@ function Reveal({ children, className = "", delay = 0 }) {
     <div
       ref={ref}
       style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
-      className={`transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-      } ${className}`}
+      className={`transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        } ${className}`}
     >
       {children}
     </div>
@@ -34,11 +33,10 @@ function Reveal({ children, className = "", delay = 0 }) {
 function GlassCard({ children, className = "", hover = true }) {
   return (
     <div
-      className={`relative rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/50 to-black overflow-hidden ${
-        hover
+      className={`relative rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/50 to-black overflow-hidden ${hover
           ? "transition-all duration-300 hover:-translate-y-1.5 hover:border-violet-400 hover:shadow-2xl hover:shadow-violet-500/20"
           : ""
-      } ${className}`}
+        } ${className}`}
     >
       {children}
     </div>
@@ -243,10 +241,17 @@ export default function Contact() {
                   <iframe
                     title="DJ Sanghvi College of Engineering on Google Maps"
                     src="https://maps.google.com/maps?ll=19.1058,72.8261&z=16&t=m&hl=en-GB&gl=US&mapclient=embed&output=embed"
-                    className="absolute inset-0 h-full w-full border-0"
+                    className="absolute inset-0 h-full w-full border-0 pointer-events-none"
                     loading="lazy"
                     allowFullScreen
                     referrerPolicy="no-referrer-when-downgrade"
+                  />
+                  <a
+                    href="https://www.google.com/maps/place/SVKM's+Dwarkadas+J.+Sanghvi+College+of+Engineering/@19.1072583,72.8345328,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7c9c676018b43:0x75f29a4205098f99!8m2!3d19.1072583!4d72.8371131!16zL20vMGdtbWs0?hl=en-GB&entry=ttu&g_ep=EgoyMDI2MDgwMi4wIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 z-10 cursor-pointer"
+                    aria-label="Open location in Google Maps"
                   />
                 </div>
                 <div className="px-6 py-4 border-t border-dashed border-violet-500/20 flex items-center justify-between">
@@ -254,7 +259,7 @@ export default function Contact() {
                     DJ Sanghvi, Vile Parle (W)
                   </span>
                   <a
-                    href="https://www.google.com/maps?ll=19.1058,72.8261&z=16&t=m&hl=en-GB&gl=US&mapclient=embed"
+                    href="https://www.google.com/maps/place/SVKM's+Dwarkadas+J.+Sanghvi+College+of+Engineering/@19.1072583,72.8345328,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7c9c676018b43:0x75f29a4205098f99!8m2!3d19.1072583!4d72.8371131!16zL20vMGdtbWs0?hl=en-GB&entry=ttu&g_ep=EgoyMDI2MDgwMi4wIKXMDSoASAFQAw%3D%3D"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs font-semibold text-fuchsia-300 hover:text-fuchsia-200 transition-colors duration-200"
@@ -266,29 +271,6 @@ export default function Contact() {
             </Reveal>
           </div>
         </div>
-      </section>
-
-      {/* ── CTA STRIP (matches Articles CTA) ──────────────────── */}
-      <section className="px-6 pb-20 md:px-12">
-        <Reveal>
-          <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-500/15 to-fuchsia-400/10 px-8 py-16 text-center">
-            <h2 className="font-serif-brew text-3xl font-semibold md:text-4xl">
-              Ready to find your{" "}
-              <span className="italic font-medium text-fuchsia-300">voice?</span>
-            </h2>
-            <p className="mx-auto mt-3 max-w-md text-violet-200/80">
-              Drop us a message and we'll get back to you about workshops,
-              competitions, and all things eXpress.
-            </p>
-            <a
-              href="mailto:djsce.express@gmail.com"
-              className="mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-400 px-6 py-3.5 text-sm font-semibold text-black transition-all hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-violet-500/50"
-            >
-              <Mail className="h-4 w-4" />
-              Email us now
-            </a>
-          </div>
-        </Reveal>
       </section>
     </div>
   );
