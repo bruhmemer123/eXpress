@@ -243,8 +243,28 @@ export default function Expresso() {
 
   if (selectedMag) {
     return (
-      <div className="min-h-screen bg-[#060211] text-slate-100 px-4 sm:px-6 py-12 flex flex-col items-center justify-start z-50 relative">
-        <div className="w-full max-w-6xl flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center mb-8 border-b border-purple-500/10 pb-6">
+      <div className="relative min-h-screen overflow-hidden bg-black px-4 py-12 text-violet-50 sm:px-6">
+        <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        .font-serif-brew { font-family: 'Fraunces', serif; }
+        .font-sans { font-family: 'Space Grotesk', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        @keyframes rise {
+          0% { transform: translateY(6px) scaleY(0.9); opacity: 0; }
+          30% { opacity: 0.8; }
+          100% { transform: translateY(-60px) scaleY(1.15); opacity: 0; }
+        }
+        .steam path { transform-origin: center bottom; animation: rise 3.4s ease-in-out infinite; }
+        .steam path:nth-child(2) { animation-delay: 0.9s; }
+        .steam path:nth-child(3) { animation-delay: 1.8s; }
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .marquee-track { animation: marquee 26s linear infinite; }
+      `}</style>
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute left-[-10%] top-[-10%] h-[40rem] w-[40rem] rounded-full bg-purple-600/10 blur-[140px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] h-[35rem] w-[35rem] rounded-full bg-violet-500/10 blur-[120px]" />
+        </div>
+        <div className="relative z-10 w-full max-w-6xl flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center mb-8 border-b border-violet-500/20 pb-6">
           <div>
             <span className="text-[rgb(171_101_250)] font-semibold text-xs tracking-[3px] uppercase block mb-1">
               {selectedMag.volume} • {selectedMag.edition}
@@ -259,7 +279,7 @@ export default function Expresso() {
           </button>
         </div>
 
-        <div className="w-full max-w-5xl bg-[#0d071f] rounded-2xl overflow-hidden border border-purple-500/10 shadow-2xl p-4 sm:p-8 flex items-center justify-center min-h-[500px]">
+        <div className="w-full max-w-5xl rounded-2xl border border-violet-500/20 bg-black/60 p-4 shadow-2xl shadow-violet-950/20 backdrop-blur-sm sm:p-8 flex items-center justify-center min-h-[500px]">
           {selectedMag.available ? (
             <RealReactFlipBook 
               folderName={selectedMag.folderName} 
@@ -277,7 +297,13 @@ export default function Expresso() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[#070314] overflow-hidden px-4 pb-16 pt-8 text-[rgb(209_213_219)] sm:px-6 lg:px-8">
+    <div className="relative min-h-screen overflow-hidden bg-black px-4 pb-16 pt-8 text-violet-50 sm:px-6 lg:px-8">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        .font-serif-brew { font-family: 'Fraunces', serif; }
+        .font-sans { font-family: 'Space Grotesk', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+      `}</style>
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-[-10%] top-[-10%] h-[40rem] w-[40rem] rounded-full bg-purple-600/10 blur-[140px]" />
         <div className="absolute bottom-[-10%] right-[-10%] h-[35rem] w-[35rem] rounded-full bg-violet-500/10 blur-[120px]" />
@@ -287,28 +313,28 @@ export default function Expresso() {
         <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <div className="space-y-6 text-center lg:text-left">
             <div className="space-y-4">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold uppercase tracking-widest text-[rgb(171_101_250)]">
+              <span className="inline-block rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-violet-300">
                 The Literary Club Publication
               </span>
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+              <h1 className="font-serif-brew text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
                 Where expression becomes presence.
               </h1>
-              <p className="mx-auto lg:mx-0 max-w-2xl text-base sm:text-lg leading-relaxed text-slate-300 font-light">
+              <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-violet-200/80 sm:text-lg lg:mx-0">
                 Our literary magazine featuring articles, stories, poems, and insights about public speaking, debating, and communication skills.
               </p>
             </div>
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
+            <div className="flex flex-wrap justify-center gap-4 pt-2 lg:justify-start">
               <a
                 href="#journals"
-                className="w-full sm:w-auto text-center rounded-full bg-[rgb(171_101_250)] px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-purple-600 shadow-lg"
+                className="w-full rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-400 px-8 py-3.5 text-center text-sm font-bold text-black shadow-lg shadow-violet-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-violet-500/40 sm:w-auto"
               >
                 Explore journals
               </a>
             </div>
           </div>
 
-          <div className="relative w-full max-w-xl mx-auto">
-            <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 shadow-2xl backdrop-blur-xl sm:p-8">
+          <div className="relative mx-auto w-full max-w-xl">
+            <div className="rounded-[2rem] border border-violet-500/20 bg-black/40 p-6 shadow-2xl shadow-violet-950/20 backdrop-blur-xl sm:p-8">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.2em] text-[rgb(171_101_250)]">Committee spirit</p>
@@ -325,16 +351,16 @@ export default function Expresso() {
                   ['10+', 'Contributors'],
                   ['∞', 'Ideas Shared'],
                 ].map(([value, label]) => (
-                  <div key={label} className="rounded-xl border border-white/5 bg-slate-950/60 p-3.5 text-center">
-                    <p className="text-xl sm:text-2xl font-bold text-white tracking-tight">{value}</p>
-                    <p className="mt-0.5 text-[11px] sm:text-xs text-slate-400 font-medium">{label}</p>
+                  <div key={label} className="rounded-xl border border-violet-500/15 bg-violet-950/20 p-3.5 text-center">
+                    <p className="text-xl font-bold tracking-tight text-white sm:text-2xl">{value}</p>
+                    <p className="mt-0.5 text-[11px] font-medium text-violet-200/70 sm:text-xs">{label}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-6 rounded-xl border border-purple-500/10 bg-slate-950/80 p-5 text-white">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-300">From the Editors</p>
-                <p className="mt-2.5 text-sm sm:text-base font-normal leading-relaxed text-slate-300">
+              <div className="mt-6 rounded-xl border border-violet-500/15 bg-violet-950/20 p-5 text-white">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">From the Editors</p>
+                <p className="mt-2.5 text-sm font-normal leading-relaxed text-violet-100/80 sm:text-base">
                   Every edition of Expresso brings together current affairs, festival specials, campus events, thought-provoking articles, fun sections, and a unique annual theme.
                 </p>
               </div>
@@ -343,10 +369,10 @@ export default function Expresso() {
         </div>
       </section>
 
-      <section id="journals" className="mx-auto max-w-7xl px-0 pb-16 pt-12 scroll-mt-12">
+      <section id="journals" className="mx-auto max-w-7xl scroll-mt-12 rounded-[2rem] border border-violet-500/20 bg-black/40 px-4 py-8 backdrop-blur-sm sm:px-6 lg:px-8 lg:py-10">
         <div className="mb-10 text-center sm:text-left">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[rgb(171_101_250)]">Featured journals</p>
-          <h2 className="mt-1 text-3xl font-bold text-white tracking-tight sm:text-4xl">Collections from the committee archive</h2>
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-violet-300">Featured journals</p>
+          <h2 className="mt-1 font-serif-brew text-3xl font-bold tracking-tight text-white sm:text-4xl">Collections from the committee archive</h2>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -355,13 +381,11 @@ export default function Expresso() {
             return (
               <div
                 key={journal.id}
-                className="reveal-card rounded-2xl border p-5 shadow-lg flex flex-col justify-between transition-all duration-500 ease-out"
+                className="reveal-card flex flex-col justify-between rounded-2xl border border-violet-500/20 bg-black/60 p-5 shadow-lg shadow-violet-950/20 transition-all duration-500 ease-out"
                 style={{
                   opacity: 0,
                   transform: 'translateY(20px)',
-                  transitionDelay: `${index * 40}ms`,
-                  backgroundColor: journal.available ? 'rgba(9, 4, 22, 0.6)' : 'rgba(9, 4, 22, 0.2)',
-                  borderColor: journal.available ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.04)'
+                  transitionDelay: `${index * 40}ms`
                 }}
               >
                 <div>
