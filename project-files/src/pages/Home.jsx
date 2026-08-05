@@ -9,20 +9,26 @@ export default function Home() {
 
   useEffect(() => {
     const frameCount = 90;
+    const EXTRA_HEIGHT = 120;
 
-const isMobile = window.innerWidth < 600;
+    const isMobile = window.innerWidth < 600;
+    const frameFolder = isMobile ? "mobile_frames" : "frames";
 
-const frameFolder = isMobile ? "mobile_frames" : "frames";
-
-const currentFrame = (index) =>
-  `/${frameFolder}/frame_${String(index).padStart(4, "0")}.jpg`;
+    const currentFrame = (index) =>
+      `/${frameFolder}/frame_${String(index).padStart(4, "0")}.jpg`;
 
     const images = [];
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Lock initial size
+    const initialWidth = window.innerWidth;
+    const initialHeight = window.innerHeight;
+
+    canvas.width = initialWidth;
+    canvas.height = initialHeight + EXTRA_HEIGHT;
+
+    let lastWidth = initialWidth;
 
     const frame = { current: 0 };
 
@@ -32,7 +38,8 @@ const currentFrame = (index) =>
       const ratio = Math.max(hRatio, vRatio);
 
       const centerShiftX = (canvas.width - img.width * ratio) / 2;
-      const centerShiftY = (canvas.height - img.height * ratio) / 2;
+      const centerShiftY =
+        (canvas.height - img.height * ratio) / 2 - EXTRA_HEIGHT / 2;
 
       ctx.drawImage(
         img,
@@ -78,9 +85,16 @@ const currentFrame = (index) =>
     });
 
     const resizeCanvas = () => {
+      // Ignore address bar show/hide
+      if (window.innerWidth === lastWidth) return;
+
+      lastWidth = window.innerWidth;
+
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.height = window.innerHeight + EXTRA_HEIGHT;
+
       render();
+      ScrollTrigger.refresh();
     };
 
     window.addEventListener("resize", resizeCanvas);
@@ -102,30 +116,27 @@ const currentFrame = (index) =>
   }, []);
 
   useEffect(() => {
-   const tl = gsap.timeline({
-  scrollTrigger: {
-    trigger: document.body,
-    start: "top top",
-    end: "+=3600",
-    scrub: 0.3,
-  },
-});
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top top",
+        end: "+=3600",
+        scrub: 0.3,
+      },
+    });
 
-tl.to({}, { duration: 1 })
-
-tl.to(".hero1", {
-  opacity: 0,
-  y: -50,
-  duration: 1,
-})
-
-.to({}, { duration: 0.1 })
-
-.to(".hero3", {
-  opacity: 1,
-  y: 0,
-  duration: 1,
-});
+    tl.to({}, { duration: 1 })
+      .to(".hero1", {
+        opacity: 0,
+        y: -50,
+        duration: 1,
+      })
+      .to({}, { duration: 0.1 })
+      .to(".hero3", {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+      });
 
     return () => {
       tl.scrollTrigger?.kill();
@@ -134,15 +145,17 @@ tl.to(".hero1", {
   }, []);
 
   return (
-    <div className="relative min-h-[calc(100dvh+4800px)]">
-      <div className="sticky top-0 h-[100dvh] overflow-hidden">
-        <canvas ref={canvasRef} className="absolute inset-0 z-0" />
+    <div className="relative min-h-[calc(100svh+4800px)]">
+      <div className="sticky top-0 h-[100svh] overflow-hidden">
+        <canvas
+          ref={canvasRef}
+          className="absolute left-0 top-0 z-0 w-full h-[calc(100%+120px)]"
+        />
 
-        <div className="absolute top-0 left-0 z-30 h-full w-[100%] md:w-[60%] bg-gradient-to-r from-black/80 to-black/0">
+        <div className="absolute top-0 left-0 z-30 h-full w-full md:w-[60%] bg-gradient-to-r from-black/80 to-black/0">
           <div className="absolute inset-0 z-20 pointer-events-none">
-
             <div className="hero1 absolute bottom-12 left-6 sm:left-8">
-              <h1 className="text-white uppercase h-[100dvh] flex flex-col justify-end gap-3 md:gap-0">
+              <h1 className="text-white uppercase h-full flex flex-col justify-end gap-3 md:gap-0">
                 <div className="ani text-5xl font-light md:text-7xl">
                   Every
                 </div>
@@ -160,10 +173,14 @@ tl.to(".hero1", {
 
             <div className="hero3 absolute inset-0 opacity-0">
               <div className="absolute left-6 md:left-12 bottom-12 flex max-w-[24rem] flex-col gap-6">
-                <p className="text-white text-6xl md:text-8xl uppercase">Express</p>
+                <p className="text-white text-6xl md:text-8xl uppercase">
+                  Express
+                </p>
+
                 <p className="text-violet-400 text-3xl md:text-5xl font-black uppercase">
                   to Inspire
                 </p>
+
                 <button className="pointer-events-auto text-sm md:text-md inline-flex w-fit rounded-full bg-violet-600 px-8 py-4 font-bold text-white transition-transform duration-200 ease-in-out hover:-translate-y-0.5">
                   Upcoming events →
                 </button>
