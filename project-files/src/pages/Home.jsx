@@ -76,13 +76,8 @@ const currentFrame = (index) =>
       },
       onUpdate: render,
     });
-let prevWidth = window.innerWidth;
 
 const resizeCanvas = () => {
-    if (window.innerWidth === prevWidth) return;
-
-    prevWidth = window.innerWidth;
-
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     render();
