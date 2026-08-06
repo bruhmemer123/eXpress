@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     const frameCount = 90;
 
-const isMobile = window.innerWidth < 768;
+const isMobile = window.innerWidth < 600;
 
 const frameFolder = isMobile ? "mobile_frames" : "frames";
 
@@ -22,7 +22,7 @@ const currentFrame = (index) =>
     const context = canvas.getContext("2d");
 
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = window.innerHeight + 100;
 
     const frame = { current: 0 };
 
@@ -77,11 +77,11 @@ const currentFrame = (index) =>
       onUpdate: render,
     });
 
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      render();
-    };
+const resizeCanvas = () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    render();
+};
 
     window.addEventListener("resize", resizeCanvas);
 
@@ -102,41 +102,30 @@ const currentFrame = (index) =>
   }, []);
 
   useEffect(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: document.body,
-        start: "top top",
-        end: "+=3600",
-        scrub: 0.3,
-      },
-    });
+   const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: document.body,
+    start: "top top",
+    end: "+=3600",
+    scrub: 0.3,
+  },
+});
 
-    tl.to(".hero1", {
-      opacity: 0,
-      y: -50,
-      duration: 0.7,
-    })
-      .to(
-        ".hero2",
-        {
-          opacity: 1,
-          duration: 0.7,
-        },
-        "<"
-      )
-      .to(".hero2", {
-        opacity: 0,
-        y: -50,
-        duration: 0.7,
-      })
-      .to(
-        ".hero3",
-        {
-          opacity: 1,
-          duration: 0.7,
-        },
-        "<"
-      );
+tl.to({}, { duration: 1 })
+
+tl.to(".hero1", {
+  opacity: 0,
+  y: -50,
+  duration: 1,
+})
+
+.to({}, { duration: 0.1 })
+
+.to(".hero3", {
+  opacity: 1,
+  y: 0,
+  duration: 1,
+});
 
     return () => {
       tl.scrollTrigger?.kill();
@@ -149,11 +138,11 @@ const currentFrame = (index) =>
       <div className="sticky top-0 h-[100dvh] overflow-hidden">
         <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 
-        <div className="absolute top-0 left-0 z-30 h-full w-[100%] md:w-[60%] bg-gradient-to-r from-black/90 to-black/0">
+        <div className="absolute top-0 left-0 z-30 h-full w-[100%] md:w-[60%] bg-gradient-to-r from-black/80 to-black/0">
           <div className="absolute inset-0 z-20 pointer-events-none">
 
             <div className="hero1 absolute bottom-12 left-6 sm:left-8">
-              <h1 className="text-white uppercase leading-none h-[100dvh] flex flex-col justify-end gap-3 md:gap-0">
+              <h1 className="text-white uppercase h-[100dvh] flex flex-col justify-end gap-3 md:gap-0">
                 <div className="ani text-5xl font-light md:text-7xl">
                   Every
                 </div>
@@ -169,27 +158,14 @@ const currentFrame = (index) =>
               </h1>
             </div>
 
-            <div className="hero2 absolute inset-0 opacity-0">
-              <h1 className="absolute left-5 bottom-[25%] md:bottom-1/4 text-[20vw] sm:text-[14vw] font-white [font-weight:900]">
-                EXPRESS
-              </h1>
-
-              <div className="absolute left-6 md:left-8 bottom-12">
-                <p className="text-white sm:text-6xl text-5xl font-light uppercase">To</p>
-                <p className="text-violet-400 text-6xl sm:text-7xl font-black uppercase">
-                  Inspire
-                </p>
-              </div>
-            </div>
-
             <div className="hero3 absolute inset-0 opacity-0">
               <div className="absolute left-6 md:left-12 bottom-12 flex max-w-[24rem] flex-col gap-6">
-                <p className="text-white text-4xl md:text-5xl uppercase">The Stage</p>
-                <p className="text-violet-400 text-6xl md:text-8xl font-black uppercase">
-                  Is Waiting
+                <p className="text-white text-6xl md:text-8xl uppercase">Express</p>
+                <p className="text-violet-400 text-3xl md:text-5xl font-black uppercase">
+                  to Inspire
                 </p>
-                <button className="pointer-events-auto text-sm md:text-lg inline-flex w-fit rounded-full bg-violet-600 px-8 py-4 font-bold text-white transition-transform duration-200 ease-in-out hover:-translate-y-0.5">
-                  Join eXpress →
+                <button className="pointer-events-auto text-sm md:text-md inline-flex w-fit rounded-full bg-violet-600 px-8 py-4 font-bold text-white transition-transform duration-200 ease-in-out hover:-translate-y-0.5">
+                  Upcoming events →
                 </button>
               </div>
             </div>

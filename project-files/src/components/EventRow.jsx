@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -12,16 +12,17 @@ export default function EventRow({ event, index, reversed }) {
   const bodyRef = useRef(null);
   const numberRef = useRef(null);
   const dotRef = useRef(null);
+  const [slide, setSlide] = useState(0);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
+        defaults: { ease: "power2.out" },
         scrollTrigger: {
           trigger: rootRef.current,
-          start: "top 78%",
-          end: "top 35%",
-          scrub: false,
-          toggleActions: "play none none reverse",
+          start: "top 80%",
+          end: "top 45%",
+          scrub: 0.6,
         },
       });
 
@@ -32,15 +33,15 @@ export default function EventRow({ event, index, reversed }) {
       )
         .fromTo(
           imgWrapRef.current,
-          { opacity: 0, x: reversed ? 60 : -60, scale: 0.94 },
-          { opacity: 1, x: 0, scale: 1, duration: 0.75, ease: "power3.out" },
-          "-=0.25"
+          { opacity: 0, x: reversed ? 60 : -60, scale: 0.96 },
+          { opacity: 1, x: 0, scale: 1, duration: 0.9 },
+          "-=0.3"
         )
         .fromTo(
           imgRef.current,
-          { scale: 1.22 },
-          { scale: 1, duration: 1.1, ease: "power2.out" },
-          "-=0.75"
+          { scale: 1.18 },
+          { scale: 1, duration: 1.2 },
+          "-=0.9"
         )
         .fromTo(
           titleRef.current,
@@ -65,8 +66,8 @@ export default function EventRow({ event, index, reversed }) {
           duration: 0.4,
           scrollTrigger: {
             trigger: rootRef.current,
-            start: "top 70%",
-            end: "top 40%",
+            start: "top 72%",
+            end: "top 42%",
             scrub: true,
           },
         }
@@ -78,7 +79,7 @@ export default function EventRow({ event, index, reversed }) {
 
   return (
     <div
-      className={`relative grid items-center gap-[150px] py-[70px] max-[860px]:grid-cols-1 max-[860px]:gap-[26px] max-[860px]:py-10 ${
+      className={`relative grid items-center gap-[150px] max-[860px]:grid-cols-1 max-[860px]:gap-[26px] ${
         reversed
           ? "grid-cols-[minmax(0,1fr)_minmax(0,460px)]"
           : "grid-cols-[minmax(0,460px)_minmax(0,1fr)]"
@@ -96,15 +97,63 @@ export default function EventRow({ event, index, reversed }) {
       <div
         className={`relative group ${reversed ? "min-[861px]:order-2" : ""}`}
         ref={imgWrapRef}
+        style={{ willChange: "transform, opacity" }}
       >
         <div className="relative rounded-[18px] overflow-hidden border border-[#8b5cf6] shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(139,92,246,0.08)] aspect-[4/3] max-[860px]:aspect-[16/10] bg-bg-soft after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(180deg,transparent_55%,rgba(6,5,9,0.55)_100%)] after:pointer-events-none">
-          <img
-            ref={imgRef}
-            src={event.image}
-            alt={event.title}
-            loading="lazy"
-            className="w-full h-full object-cover block transition-transform duration-[600ms] ease-in-out group-hover:scale-[1.06]"
-          />
+          <div className="w-full h-full overflow-hidden relative">
+            <div
+              ref={imgRef}
+              className="flex h-full w-full transition-transform duration-500"
+              style={{ transform: `translateX(-${slide * 100}%)` }}
+            >
+              {(event.images ?? (event.image ? [event.image] : [])).map((src, i) => (
+                <img
+                  key={src + i}
+                  src={src}
+                  alt={`${event.title} ${i + 1}`}
+                  loading="lazy"
+                  className="w-full flex-shrink-0 h-full object-cover block transition-transform duration-[600ms] ease-in-out group-hover:scale-[1.06]"
+                  ref={(el) => {
+                    if (i === 0) imgRef.current = el;
+                  }}
+                />
+              ))}
+            </div>
+
+            {(event.images ?? []).length > 1 && (
+              <>
+                <button
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full w-9 h-9 flex items-center justify-center"
+                  onClick={() =>
+                    setSlide((s) => (s - 1 + event.images.length) % event.images.length)
+                  }
+                  aria-label="Previous image"
+                >
+                  ‹
+                </button>
+                <button
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full w-9 h-9 flex items-center justify-center"
+                  onClick={() => setSlide((s) => (s + 1) % event.images.length)}
+                  aria-label="Next image"
+                >
+                  ›
+                </button>
+
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-3 flex gap-2">
+                  {event.images.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSlide(i)}
+                      className={`w-2 h-2 rounded-full ${
+                        i === slide ? "bg-white" : "bg-white/40"
+                      }`}
+                      aria-label={`Go to image ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
         <span
           className={`absolute -top-3.5 w-[46px] h-[46px] rounded-full bg-bg border border-border-soft flex items-center justify-center font-display font-bold text-[0.85rem] text-purple-light z-[2] ${
@@ -127,12 +176,12 @@ export default function EventRow({ event, index, reversed }) {
           </span>
         )}
         <h3
-          className="font-display font-bold text-[clamp(1.7rem,3vw,2.5rem)] m-0 bg-[linear-gradient(135deg,#c4b5fd,#8b5cf6)] bg-clip-text text-transparent"
+          className="font-serif-brew font-extrabold text-[clamp(1.7rem,3vw,2.5rem)] m-0 bg-[linear-gradient(135deg,#c4b5fd,#8b5cf6)] bg-clip-text text-transparent"
           ref={titleRef}
         >
           {event.title}
         </h3>
-        <p className="m-0 text-text-dim text-base leading-[1.75] max-w-[50ch]" ref={bodyRef}>
+        <p className="m-0 font-sans text-text-dim text-base leading-[1.75] max-w-[50ch]" ref={bodyRef}>
           {event.description}
         </p>
       </div>

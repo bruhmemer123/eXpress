@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Mic, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -22,7 +22,7 @@ const Header = () => {
       <header
         className={`z-50 transition-all duration-300 ${
           isHomePage
-            ? 'fixed top-0 inset-x-0 border-none bg-transparent shadow-none backdrop-blur-none outline-none'
+            ? 'fixed top-0 inset-x-0 border-none bg-gradient-to-b from-black/60 to-black/0 shadow-none backdrop-blur-none outline-none'
             : 'sticky top-0 border-b border-white/10 bg-black shadow-[0_8px_30px_rgba(0,0,0,0.18)] backdrop-blur-xl'
         }`}
       >
@@ -52,7 +52,7 @@ const Header = () => {
                   className={`rounded-full px-3 py-2 transition duration-200 ${
                     isActive
                       ? 'text-purple-400 font-semibold'
-                      : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                      : 'text-slate-100 hover:bg-white/10 hover:text-white'
                   }`}
                 >
                   {link.label}
@@ -66,7 +66,7 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={24} /> : <Mic size={24} />}
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </header>
@@ -89,7 +89,7 @@ const Header = () => {
                 className={`text-lg font-medium transition duration-200 block ${
                   isActive
                     ? 'text-purple-400 font-semibold'
-                    : 'text-slate-300 hover:text-purple-400'
+                    : 'text-slate-100 hover:text-purple-400'
                 }`}
               >
                 {link.label}

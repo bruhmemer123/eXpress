@@ -11,8 +11,7 @@ export default function BackToTopButton() {
       const clientHeight = window.innerHeight;
       const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
 
-      // Show button only when user is near the end of the page
-      setIsVisible(distanceFromBottom < 300);
+      setIsVisible(scrollTop > 200);
     };
 
     window.addEventListener('scroll', handleScroll);

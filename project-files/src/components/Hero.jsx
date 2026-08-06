@@ -17,7 +17,7 @@ export default function Hero({ onExplore }) {
         scrollTrigger: {
           trigger: rootRef.current,
           start: "top top",
-          end: "+=250%",
+          end: "+=90%",
           scrub: 0.6,
           pin: true,
           anticipatePin: 1,
@@ -25,33 +25,33 @@ export default function Hero({ onExplore }) {
       });
 
       // background: slow zoom the whole way through
-      tl.fromTo(bgRef.current, { scale: 1.1 }, { scale: 0, ease: "none", duration: 2 }, 0);
+      tl.fromTo(bgRef.current, { scale: 1.1 }, { scale: 0.9, ease: "none", duration: 2}, 0);
 
-      // Stage 1 -> out
-      tl.fromTo(
-        stage1Ref.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-        0
-      );
-      tl.to(stage1Ref.current, { opacity: 0, y: -40, duration: 0.4, ease: "power2.in" }, 0.7);
+      // // Stage 1 -> out
+      // tl.fromTo(
+      //   stage1Ref.current,
+      //   { opacity: 0, y: 30 },
+      //   { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+      //   0
+      // );
+      // tl.to(stage1Ref.current, { opacity: 0, y: -40, duration: 0.4, ease: "power2.in" }, 0.7);
 
       // Stage 2 -> big tracking word, in then out
       tl.fromTo(
         stage2Ref.current,
-        { opacity: 0, letterSpacing: "0.35em" },
-        { opacity: 1, letterSpacing: "0.02em", duration: 0.7, ease: "power2.out" },
-        0.85
+        { opacity: 1, letterSpacing: "0.06em" },
+        { opacity: 1, letterSpacing: "0.02em", duration: 0.9, ease: "none" },
+        0
       );
-      tl.to(stage2Ref.current, { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, 1.75);
+      tl.to(stage2Ref.current, { opacity: 0, y: -60, duration: 0.8, ease: "none" }, 1.75);
 
-      // Stage 3 -> closing line + CTA
-      tl.fromTo(
-        stage3Ref.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
-        1.9
-      );
+      // // Stage 3 -> closing line + CTA
+      // tl.fromTo(
+      //   stage3Ref.current,
+      //   { opacity: 0, y: 30 },
+      //   { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+      //   1.9
+      // );
     }, rootRef);
 
     return () => ctx.revert();
@@ -59,24 +59,24 @@ export default function Hero({ onExplore }) {
 
   return (
     <section className="relative w-full" id="hero" ref={rootRef}>
-      <div className="relative h-screen w-full overflow-hidden flex items-end">
+      <div className="relative mt-[150px] h-[200px] w-full overflow-hidden flex items-end">
         <div className="absolute inset-0 z-0" ref={bgRef}>
-          <img
+          {/* <img
             src="/images/hero-bg.jpg"
             alt=""
             className="w-full h-full object-cover block"
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,5,9,0.35)_0%,rgba(6,5,9,0.25)_40%,rgba(6,5,9,0.85)_100%)]" />
+          /> */}
+          <div/>
         </div>
-        <div className = "absolute inset-0 z-[1] flex flex-col items-center justify-center text-center px-12 max-[720px]:px-6" ref = {bgRef}>
+        <div className = "absolute inset-0 z-[1] flex flex-col items-center justify-center text-center px-12 max-[720px]:px-6" ref = {stage2Ref}>
           <h1 className="font-display font-bold text-[clamp(2.8rem,6vw,4.5rem)] leading-[1.05] text-text">
-            Previous Events
+            Timeline of our <em className="not-italic text-purple-light font-bold">Memories</em>
           </h1>
           <p className="lg:text-2xl md:text-xl sm:text-lg font-body font-normal text-text-dim mt-2.5">
-            A journey through the <em className="not-italic text-purple-light font-bold">memories</em> of our past events
+            Awaits you to explore the moments we've lived and cherished together.
           </p>
         </div>
-        <div
+        {/* <div
           className="absolute inset-x-0 bottom-0 z-[2] px-12 pb-[90px] flex flex-col gap-1 max-[720px]:px-6 max-[720px]:pb-[70px]"
           ref={stage1Ref}
         > 
@@ -89,9 +89,9 @@ export default function Hero({ onExplore }) {
           <span className="font-body font-normal text-[clamp(1rem,2vw,1.35rem)] text-text-dim mt-2.5">
             STARTED WITH A MOMENT
           </span>
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="absolute inset-x-0 top-0 z-[2] flex flex-col items-start justify-center"
           ref={stage2Ref}
         >
@@ -101,9 +101,9 @@ export default function Hero({ onExplore }) {
           <span className="px-[52px] mt-3 font-display font-medium text-[clamp(1.1rem,3vw,2rem)] text-text-dim tracking-[0.05em] max-[720px]:px-[26px]">
             WE'VE <em className="not-italic text-purple-light font-bold">LIVED</em>
           </span>
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="absolute inset-x-0 bottom-0 z-[2] px-12 pb-[90px] flex flex-row items-end justify-between gap-5 max-[720px]:px-6 max-[720px]:pb-[70px] max-[720px]:flex-col max-[720px]:items-start max-[720px]:gap-[22px]"
           ref={stage3Ref}
         >
@@ -124,7 +124,7 @@ export default function Hero({ onExplore }) {
               →
             </span>
           </button>
-        </div>
+        </div> */}
 
         {/* <div className="absolute bottom-[26px] right-10 z-[3] flex items-center gap-2.5 text-[0.72rem] tracking-[0.18em] uppercase text-text-dim max-[720px]:right-6">
           <span className="w-px h-[26px] bg-[linear-gradient(180deg,var(--color-purple-light),transparent)] animate-scrollhint" />
