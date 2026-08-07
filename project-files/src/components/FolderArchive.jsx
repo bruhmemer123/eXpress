@@ -76,14 +76,7 @@ export default function FolderArchive({
         `}
       </style>
 
-      {/*
-        KEY FIX #1: overflow-x-auto with no overflow-y set forces the browser
-        to also clip overflow-y (per CSS spec), which was cutting off the
-        active tab's scale/translate/shadow at the seam. We fix that by:
-          - explicitly setting overflow-y: visible via inline style
-          - adding vertical padding so the scaled/translated tab has room
-            to breathe without touching the clip boundary
-      */}
+     
       <div
         className="
           hide-scrollbar
@@ -109,7 +102,6 @@ export default function FolderArchive({
             const isLast = i === years.length - 1;
 
             // KEY FIX #2: only round the OUTER corners of the whole tab
-            // strip (first tab's top-left, last tab's top-right). Every
             // inner edge stays square so adjoining tabs butt together
             // with no rounded notch peeking through between them.
             // The active tab is elevated/scaled above its neighbors, so
@@ -195,12 +187,6 @@ export default function FolderArchive({
 
       {/*
         Folder body — now glassmorphism.
-        - Solid gradient swapped for a translucent violet layer so the
-          purple glow behind the section shows through the blur.
-        - backdrop-blur-2xl does the frosted-glass diffusion.
-        - A soft inner top highlight (via box-shadow) sells the "glass
-          panel catching light" look; outer border stays violet-tinted
-          and semi-transparent to read as glass edge, not a solid frame.
       */}
       <div
         className="

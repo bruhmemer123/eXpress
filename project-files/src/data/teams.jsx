@@ -374,10 +374,5 @@ export const teams = {
     },
   },
 
-  "2027-2028": {
-    groupPhoto: placeholder,
-
-    core: {},
-    community: {},
-  },
+ 
 };
