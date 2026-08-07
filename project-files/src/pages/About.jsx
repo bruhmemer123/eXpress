@@ -39,7 +39,7 @@ const KineticSphere = () => {
     "Rebuttal", "Oratory", "Diplomacy", "Articulation"
   ], []);
   
-  const radius = 180; // Size of the sphere
+  const radius = 240; 
   const [isGrabbing, setIsGrabbing] = useState(false);
   
   // Refs to handle physics OUTSIDE of React's render cycle for max performance
@@ -68,8 +68,8 @@ const KineticSphere = () => {
     const animate = () => {
       if (!isDraggingRef.current) {
         // Slow auto-rotation
-        rotationRef.current.x += 0.002;
-        rotationRef.current.y -= 0.002; 
+        rotationRef.current.x += 0.0015;
+        rotationRef.current.y -= 0.0015; 
       }
 
       const cosX = Math.cos(rotationRef.current.x);
@@ -90,8 +90,10 @@ const KineticSphere = () => {
 
         // Calculate 2.5D Depth
         const alpha = (z2 + radius) / (2 * radius); 
-        const scale = 0.5 + alpha * 0.8; 
-        const opacity = 0.15 + alpha * 0.85; 
+        
+        // Dynamic scaling: deeper depth of field so back words shrink more, reducing clutter
+        const scale = 0.4 + alpha * 0.7; 
+        const opacity = 0.1 + alpha * 0.9; 
 
         // Apply directly to DOM node
         el.style.transform = `translate(-50%, -50%) translate(${x2}px, ${y1}px) scale(${scale})`;
@@ -122,10 +124,11 @@ const KineticSphere = () => {
     const deltaX = e.clientX - prevMouseRef.current.x;
     const deltaY = e.clientY - prevMouseRef.current.y;
     
-    // THE FIX: Inverted the drag signs to properly track the mouse 1:1 on the DOM grid
+    // THE FIX: Restored the proper 1:1 mapping. 
+    // Drag down (positive Y) subtracts X. Drag right (positive X) adds Y.
     rotationRef.current = {
-      x: rotationRef.current.x + deltaY * 0.005,
-      y: rotationRef.current.y - deltaX * 0.005,
+      x: rotationRef.current.x - deltaY * 0.004,
+      y: rotationRef.current.y + deltaX * 0.004,
     };
     
     prevMouseRef.current = { x: e.clientX, y: e.clientY };
@@ -140,7 +143,7 @@ const KineticSphere = () => {
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       <div 
-        className={`relative w-full h-full max-w-[400px] max-h-[400px] rounded-full flex items-center justify-center ${
+        className={`relative w-full h-full max-w-[550px] max-h-[550px] rounded-full flex items-center justify-center ${
           isGrabbing ? 'cursor-grabbing' : 'cursor-grab'
         }`} 
         style={{ touchAction: 'none' }}
@@ -153,8 +156,8 @@ const KineticSphere = () => {
            <div
              key={i}
              ref={(el) => (wordsRef.current[i] = el)}
-             className="absolute top-1/2 left-1/2 font-serif-brew font-semibold transition-colors duration-300 pointer-events-none whitespace-nowrap"
-             style={{ fontSize: '1.25rem' }}
+             className="absolute top-1/2 left-1/2 font-serif-brew font-semibold transition-colors duration-300 pointer-events-none whitespace-nowrap tracking-wide"
+             style={{ fontSize: '1.5rem' }}
            >
              {word}
            </div>
@@ -254,7 +257,7 @@ export default function About() {
           <div 
             className="absolute inset-0 opacity-40 transition-all duration-300 pointer-events-none"
             style={{
-              background: `radial-gradient(circle 350px at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(139,92,246,0.15) 0%, transparent 100%)`
+              background: `radial-gradient(circle 450px at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(139,92,246,0.15) 0%, transparent 100%)`
             }}
           />
           
